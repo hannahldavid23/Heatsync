@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HeatSync</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+<h1>🔥 HeatSync</h1>
+<p class="subtitle">Outdoor Rotation Manager</p>
+
+<div class="card">
+<h2>Today's Rotation</h2>
+
+<div class="timer-buttons">
+<button onclick="setRotation(45)">45 MIN</button>
+<button onclick="setRotation(30)">30 MIN</button>
+<button onclick="setRotation(20)">20 MIN</button>
+</div>
+
+<p id="rotationDisplay">Current Rotation: 45 Minutes</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>Set Shift Team</h2>
+
+<div id="positions">
+
+</div>
+
+</div>
+
+
+<button class="start-button" onclick="startShift()">
+START SHIFT
+</button>
+
+
+</div>
+
+
+<script src="app.js"></script>
+
+</body>
+</html>
