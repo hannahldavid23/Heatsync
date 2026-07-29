@@ -1,0 +1,2 @@
+# Heatsync
+Outdoor rotation manager
