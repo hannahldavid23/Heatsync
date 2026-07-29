@@ -11,6 +11,7 @@
 
 </head>
 
+
 <body>
 
 <div class="app">
@@ -23,25 +24,17 @@ Outdoor Rotation Manager
 </p>
 
 
-<!-- SETUP -->
-
 <div class="card" id="setupCard">
 
 <h2>Today's Rotation</h2>
 
 <div class="timer-buttons">
 
-<button onclick="setRotation(45)">
-45 MIN
-</button>
+<button onclick="setRotation(45)">45 MIN</button>
 
-<button onclick="setRotation(30)">
-30 MIN
-</button>
+<button onclick="setRotation(30)">30 MIN</button>
 
-<button onclick="setRotation(20)">
-20 MIN
-</button>
+<button onclick="setRotation(20)">20 MIN</button>
 
 </div>
 
@@ -65,15 +58,13 @@ Current Rotation: 45 Minutes
 
 
 
-<button class="start-button" onclick="startShift()">
+
+<button class="start-button" onclick="startShift">
 START SHIFT
 </button>
 
 
 
-
-
-<!-- DASHBOARD -->
 
 <div id="dashboard" style="display:none;">
 
@@ -111,12 +102,32 @@ START SHIFT
 20 MIN
 </button>
 
-
 </div>
+
 
 
 <p id="rotationMessage">
 New switches will use this time.
+</p>
+
+
+
+<div class="timer-buttons">
+
+<button onclick="pauseTimers()">
+⏸ PAUSE ALL
+</button>
+
+
+<button onclick="resumeTimers()">
+▶ RESUME
+</button>
+
+</div>
+
+
+<p id="pauseMessage">
+🔥 HeatSync Active
 </p>
 
 
@@ -134,6 +145,7 @@ New switches will use this time.
 
 
 </div>
+
 
 
 
