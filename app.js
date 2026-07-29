@@ -19,27 +19,36 @@ function setRotation(minutes) {
 
   document.getElementById("rotationDisplay").innerText =
     "Current Rotation: " + minutes + " Minutes";
+
+  if(document.getElementById("dashboardRotation")){
+    document.getElementById("dashboardRotation").innerText =
+    "Current Rotation: " + minutes + " Minutes (New switches)";
+  }
 }
 
 
-function loadPositions() {
+function loadPositions(){
 
   const container = document.getElementById("positions");
 
-  positions.forEach(position => {
+  container.innerHTML="";
 
-    const card = document.createElement("div");
+  positions.forEach(position=>{
 
-    card.className = "position-card";
+    const card=document.createElement("div");
 
-    card.innerHTML = `
-      <h3>${position}</h3>
+    card.className="position-card";
 
-      <input id="${position}-outside"
-      placeholder="Outside employee">
+    card.innerHTML=`
 
-      <input id="${position}-inside"
-      placeholder="Inside partner">
+    <h3>${position}</h3>
+
+    <input id="${position}-outside"
+    placeholder="Outside Employee">
+
+    <input id="${position}-inside"
+    placeholder="Inside Partner">
+
     `;
 
     container.appendChild(card);
@@ -49,14 +58,18 @@ function loadPositions() {
 }
 
 
+
 function startShift(){
 
-  shiftData = [];
+  shiftData=[];
 
-  positions.forEach(position => {
+
+  positions.forEach(position=>{
+
 
     const outside =
     document.getElementById(`${position}-outside`).value || "None";
+
 
     const inside =
     document.getElementById(`${position}-inside`).value || "None";
@@ -67,25 +80,26 @@ function startShift(){
       position,
       outside,
       inside,
-
-      secondsRemaining:
-      rotationTime * 60
+      secondsRemaining: rotationTime * 60
 
     });
+
 
   });
 
 
-  document.querySelector(".card").style.display = "none";
-  document.getElementById("dashboard").style.display = "block";
 
-  document.getElementById("dashboardRotation").innerText =
-  "Current Rotation: " + rotationTime + " Minutes";
+  document.getElementById("setupCard").style.display="none";
+  document.getElementById("teamSetup").style.display="none";
+  document.querySelector(".start-button").style.display="none";
+
+  document.getElementById("dashboard").style.display="block";
 
 
   renderDashboard();
 
 }
+
 
 
 function renderDashboard(){
@@ -99,34 +113,60 @@ container.innerHTML="";
 shiftData.forEach((person,index)=>{
 
 
+let status="green";
+
+if(person.secondsRemaining <=300 &&
+person.secondsRemaining >0){
+
+status="yellow";
+
+}
+
+if(person.secondsRemaining <=0){
+
+status="red";
+
+}
+
+
 const card=document.createElement("div");
 
-card.className="position-card";
+card.className =
+"position-card "+status;
+
 
 
 card.innerHTML=`
 
-<h3>${person.position}</h3>
+<h2>${person.position}</h2>
 
 <p>
-Outside: <b>${person.outside}</b>
+Outside:
+<b>${person.outside}</b>
 </p>
 
 <p>
-Inside: <b>${person.inside}</b>
+Inside:
+<b>${person.inside}</b>
 </p>
 
-<h2 id="timer-${index}">
-${formatTime(person.secondsRemaining)}
-</h2>
+
+<h1>
+${person.secondsRemaining <=0 ? 
+"🔴 SWITCH NOW<br>OVERDUE " +
+formatTime(Math.abs(person.secondsRemaining))
+:
+formatTime(person.secondsRemaining)}
+</h1>
 
 
 <button onclick="switchConfirm(${index})">
-I’M BACK — START PARTNER TIMER
+
+I'M BACK — START PARTNER TIMER
+
 </button>
 
 `;
-
 
 container.appendChild(card);
 
@@ -152,32 +192,11 @@ timerIntervals[index]=setInterval(()=>{
 shiftData[index].secondsRemaining--;
 
 
-const timer =
-document.getElementById(`timer-${index}`);
-
-
-if(timer){
-
-timer.innerText =
-formatTime(shiftData[index].secondsRemaining);
-
-
-if(shiftData[index].secondsRemaining <=0){
-
-timer.innerText =
-"🔴 OVERDUE " +
-formatTime(Math.abs(
-shiftData[index].secondsRemaining
-));
-
-playAlert();
-
-}
-
-}
+renderDashboard();
 
 
 },1000);
+
 
 }
 
@@ -185,32 +204,50 @@ playAlert();
 
 function switchConfirm(index){
 
-const person = shiftData[index];
+const person=shiftData[index];
 
 
-const confirmSwitch =
+const answer =
 confirm(
+
+"CONFIRM SWITCH\n\n" +
+
 person.outside +
-" is back.\n\nStart timer for "
-+ person.inside +
-"?"
+
+" is back inside.\n\n" +
+
+person.inside +
+
+" is now outside.\n\n" +
+
+"Start " +
+
+rotationTime +
+
+" minute timer?"
+
 );
 
 
-if(confirmSwitch){
 
-const oldOutside = person.outside;
+if(answer){
 
-person.outside = person.inside;
 
-person.inside = oldOutside;
+const oldOutside =
+person.outside;
+
+
+person.outside =
+person.inside;
+
+
+person.inside =
+oldOutside;
 
 
 person.secondsRemaining =
 rotationTime * 60;
 
-
-renderDashboard();
 
 }
 
@@ -220,9 +257,12 @@ renderDashboard();
 
 function formatTime(seconds){
 
-let minutes=Math.floor(seconds/60);
+let minutes =
+Math.floor(seconds/60);
 
-let secs=seconds%60;
+
+let secs =
+seconds % 60;
 
 
 return minutes +
@@ -231,17 +271,6 @@ secs.toString().padStart(2,"0");
 
 }
 
-
-function playAlert(){
-
-const sound =
-new Audio(
-"https://actions.google.com/sounds/v1/alarms/beep_short.ogg"
-);
-
-sound.play();
-
-}
 
 
 window.onload=loadPositions;
