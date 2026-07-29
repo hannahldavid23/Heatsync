@@ -28,7 +28,6 @@ document.getElementById("rotationDisplay").innerText =
 
 
 
-
 function loadPositions(){
 
 const container =
@@ -39,8 +38,7 @@ container.innerHTML="";
 
 positions.forEach(position=>{
 
-
-const card=document.createElement("div");
+let card=document.createElement("div");
 
 card.className="position-card";
 
@@ -52,10 +50,8 @@ card.innerHTML=`
 <input id="${position}-outside"
 placeholder="Outside Employee">
 
-
 <input id="${position}-inside"
 placeholder="Inside Partner">
-
 
 `;
 
@@ -67,7 +63,6 @@ container.appendChild(card);
 
 
 }
-
 
 
 
@@ -91,9 +86,9 @@ document.getElementById(`${position}-inside`).value || "None";
 
 shiftData.push({
 
-position,
-outside,
-inside,
+position: position,
+outside: outside,
+inside: inside,
 secondsRemaining: rotationTime * 60
 
 });
@@ -113,6 +108,10 @@ document.querySelector(".start-button").style.display="none";
 document.getElementById("dashboard").style.display="block";
 
 
+document.getElementById("dashboardRotation").innerText =
+"Current Rotation: " + rotationTime + " Minutes";
+
+
 renderDashboard();
 
 
@@ -122,9 +121,7 @@ renderDashboard();
 
 
 
-
 function renderDashboard(){
-
 
 const container =
 document.getElementById("dashboardPositions");
@@ -159,11 +156,11 @@ status="red";
 
 
 
+let card=document.createElement("div");
 
-const card=document.createElement("div");
 
-
-card.className="position-card " + status;
+card.className =
+"position-card " + status;
 
 
 
@@ -203,12 +200,12 @@ formatTime(person.secondsRemaining)
 </h1>
 
 
+
 <button onclick="switchConfirm(${index})">
 
 I'M BACK — START PARTNER TIMER
 
 </button>
-
 
 `;
 
@@ -228,14 +225,12 @@ startTimer(index);
 
 
 
-
 function startTimer(index){
-
 
 clearInterval(timerIntervals[index]);
 
 
-timerIntervals[index]=setInterval(()=>{
+timerIntervals[index] = setInterval(function(){
 
 
 if(timersPaused){
@@ -243,6 +238,7 @@ if(timersPaused){
 return;
 
 }
+
 
 
 shiftData[index].secondsRemaining--;
@@ -254,8 +250,69 @@ renderDashboard();
 },1000);
 
 
+}
+
+
+
+
+
+
+function changeShiftRotation(minutes){
+
+rotationTime = minutes;
+
+
+shiftData.forEach(person=>{
+
+person.secondsRemaining = minutes * 60;
+
+});
+
+
+
+document.getElementById("dashboardRotation").innerText =
+"Current Rotation: " + minutes + " Minutes";
+
+
+document.getElementById("rotationMessage").innerText =
+"Rotation updated. All timers reset to " 
++ minutes + " minutes.";
+
+
+renderDashboard();
+
 
 }
+
+
+
+
+
+
+function pauseTimers(){
+
+timersPaused = true;
+
+
+document.getElementById("pauseMessage").innerText =
+"⏸ HeatSync Paused — Timers Frozen";
+
+
+}
+
+
+
+function resumeTimers(){
+
+timersPaused = false;
+
+
+document.getElementById("pauseMessage").innerText =
+"🔥 HeatSync Active — Timers Running";
+
+
+}
+
 
 
 
@@ -265,10 +322,10 @@ renderDashboard();
 function switchConfirm(index){
 
 
-let person=shiftData[index];
+let person = shiftData[index];
 
 
-let answer=confirm(
+let answer = confirm(
 
 "CONFIRM SWITCH\n\n" +
 
@@ -293,16 +350,13 @@ rotationTime +
 if(answer){
 
 
-let oldOutside =
-person.outside;
+let oldOutside = person.outside;
 
 
-person.outside =
-person.inside;
+person.outside = person.inside;
 
 
-person.inside =
-oldOutside;
+person.inside = oldOutside;
 
 
 person.secondsRemaining =
@@ -321,82 +375,9 @@ renderDashboard();
 
 
 
-
-
-function changeShiftRotation(minutes){
-
-
-rotationTime = minutes;
-
-
-
-shiftData.forEach(person=>{
-
-person.secondsRemaining =
-minutes * 60;
-
-});
-
-
-
-document.getElementById("dashboardRotation").innerText =
-"Current Rotation: " + minutes + " Minutes";
-
-
-document.getElementById("rotationMessage").innerText =
-"Rotation updated. All timers reset to "
-+ minutes + " minutes.";
-
-
-
-renderDashboard();
-
-
-}
-
-
-
-
-
-
-
-function pauseTimers(){
-
-
-timersPaused=true;
-
-
-document.getElementById("pauseMessage").innerText =
-"⏸ HeatSync Paused — Timers Frozen";
-
-
-}
-
-
-
-
-function resumeTimers(){
-
-
-timersPaused=false;
-
-
-document.getElementById("pauseMessage").innerText =
-"🔥 HeatSync Active — Timers Running";
-
-
-}
-
-
-
-
-
-
-
 function updateAttentionBanner(){
 
-
-const banner =
+let banner =
 document.getElementById("attentionBanner");
 
 
@@ -434,35 +415,27 @@ formatTime(Math.abs(person.secondsRemaining))
 
 
 
-
 if(alerts.length===0){
-
 
 banner.innerHTML =
 "✅ ALL ROTATIONS ON TRACK";
-
 
 }
 
 else{
 
-
 banner.innerHTML =
 alerts.join("<br><br>");
 
-
 }
 
 
-
 }
-
 
 
 
 
 function formatTime(seconds){
-
 
 let minutes =
 Math.floor(seconds/60);
@@ -476,10 +449,7 @@ return minutes +
 ":" +
 secs.toString().padStart(2,"0");
 
-
 }
-
-
 
 
 
