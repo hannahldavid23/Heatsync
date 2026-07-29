@@ -1,4 +1,6 @@
 let rotationTime = 45;
+let previousRotation = 45;
+
 let shiftData = [];
 let timerIntervals = {};
 let timersPaused = false;
@@ -20,6 +22,7 @@ const positions = [
 function setRotation(minutes) {
 
   rotationTime = minutes;
+  previousRotation = minutes;
 
   document.getElementById("rotationDisplay").innerText =
     "Current Rotation: " + minutes + " Minutes";
@@ -28,28 +31,34 @@ function setRotation(minutes) {
 
 
 
-function loadPositions() {
+
+function loadPositions(){
 
   const container =
     document.getElementById("positions");
 
   container.innerHTML = "";
 
-  positions.forEach(position => {
+
+  positions.forEach(position=>{
 
     let card = document.createElement("div");
 
     card.className = "position-card";
 
+
     card.innerHTML = `
-      <h3>${position}</h3>
 
-      <input id="${position}-outside"
-      placeholder="Outside Employee">
+    <h3>${position}</h3>
 
-      <input id="${position}-inside"
-      placeholder="Inside Partner">
+    <input id="${position}-outside"
+    placeholder="Outside Employee">
+
+    <input id="${position}-inside"
+    placeholder="Inside Partner">
+
     `;
+
 
     container.appendChild(card);
 
@@ -60,19 +69,21 @@ function loadPositions() {
 
 
 
-function startShift() {
+
+function startShift(){
 
   shiftData = [];
 
 
-  positions.forEach(position => {
+  positions.forEach(position=>{
+
 
     let outside =
-      document.getElementById(`${position}-outside`).value || "None";
+    document.getElementById(`${position}-outside`).value || "None";
 
 
     let inside =
-      document.getElementById(`${position}-inside`).value || "None";
+    document.getElementById(`${position}-inside`).value || "None";
 
 
     shiftData.push({
@@ -84,22 +95,23 @@ function startShift() {
 
     });
 
+
   });
 
 
 
-  document.getElementById("setupCard").style.display = "none";
+  document.getElementById("setupCard").style.display="none";
 
-  document.getElementById("teamSetup").style.display = "none";
+  document.getElementById("teamSetup").style.display="none";
 
-  document.querySelector(".start-button").style.display = "none";
+  document.querySelector(".start-button").style.display="none";
 
 
-  document.getElementById("dashboard").style.display = "block";
+  document.getElementById("dashboard").style.display="block";
 
 
   document.getElementById("dashboardRotation").innerText =
-    "Current Rotation: " + rotationTime + " Minutes";
+  "Current Rotation: " + rotationTime + " Minutes";
 
 
   renderDashboard();
@@ -110,14 +122,13 @@ function startShift() {
 
 
 
-
-function renderDashboard() {
+function renderDashboard(){
 
   const container =
-    document.getElementById("dashboardPositions");
+  document.getElementById("dashboardPositions");
 
 
-  container.innerHTML = "";
+  container.innerHTML="";
 
 
   updateAttentionBanner();
@@ -127,64 +138,77 @@ function renderDashboard() {
   shiftData.forEach((person,index)=>{
 
 
-    let status = "green";
+    let status="green";
 
 
-    if(person.secondsRemaining <= 300 &&
-       person.secondsRemaining > 0){
+    if(person.secondsRemaining <=300 &&
+       person.secondsRemaining >0){
 
-      status = "yellow";
-
-    }
-
-
-    if(person.secondsRemaining <= 0){
-
-      status = "red";
+      status="yellow";
 
     }
 
 
+    if(person.secondsRemaining <=0){
 
-    let card = document.createElement("div");
+      status="red";
+
+    }
+
+
+
+    let card=document.createElement("div");
+
 
     card.className =
-      "position-card " + status;
+    "position-card " + status;
 
 
 
     card.innerHTML = `
 
-      <h2>${person.position}</h2>
-
-      <p>
-      Outside:
-      <b>${person.outside}</b>
-      </p>
-
-      <p>
-      Inside:
-      <b>${person.inside}</b>
-      </p>
+    <h2>${person.position}</h2>
 
 
-      <h1>
-      ${
-        person.secondsRemaining <= 0
-        ?
-        "🔴 SWITCH NOW<br>OVERDUE " +
-        formatTime(Math.abs(person.secondsRemaining))
-        :
-        formatTime(person.secondsRemaining)
-      }
-      </h1>
+    <p>
+    Outside:
+    <b>${person.outside}</b>
+    </p>
 
 
-      <button onclick="switchConfirm(${index})">
-      I'M BACK — START PARTNER TIMER
-      </button>
+    <p>
+    Inside:
+    <b>${person.inside}</b>
+    </p>
+
+
+    <h1>
+
+    ${
+      person.secondsRemaining <=0
+
+      ?
+
+      "🔴 SWITCH NOW<br>OVERDUE " +
+      formatTime(Math.abs(person.secondsRemaining))
+
+      :
+
+      formatTime(person.secondsRemaining)
+
+    }
+
+    </h1>
+
+
+    <button onclick="switchConfirm(${index})">
+
+    I'M BACK — START PARTNER TIMER
+
+    </button>
 
     `;
+
 
 
     container.appendChild(card);
@@ -193,7 +217,7 @@ function renderDashboard() {
   });
 
 
-  startAllTimers();
+  startTimers();
 
 }
 
@@ -202,21 +226,21 @@ function renderDashboard() {
 
 
 
-function startAllTimers(){
+function startTimers(){
 
   Object.values(timerIntervals).forEach(timer=>{
     clearInterval(timer);
   });
 
 
-  timerIntervals = {};
+  timerIntervals={};
 
 
 
   shiftData.forEach((person,index)=>{
 
 
-    timerIntervals[index] = setInterval(()=>{
+    timerIntervals[index]=setInterval(()=>{
 
 
       if(timersPaused){
@@ -242,57 +266,51 @@ function startAllTimers(){
 
 
 
-
-function pauseTimers(){
-
-  timersPaused = true;
-
-
-  document.getElementById("pauseMessage").innerText =
-    "⏸ HEATSYNC PAUSED — TIMERS FROZEN";
-
-
-}
-
-
-
-
-
-function resumeTimers(){
-
-  timersPaused = false;
-
-
-  document.getElementById("pauseMessage").innerText =
-    "🔥 HEATSYNC ACTIVE";
-
-}
-
-
-
-
-
 function changeShiftRotation(minutes){
+
+
+  let oldRotation = rotationTime;
+
+
+  let difference =
+  oldRotation - minutes;
+
+
 
   rotationTime = minutes;
 
 
+
   shiftData.forEach(person=>{
 
+
     person.secondsRemaining =
-      minutes * 60;
+    Math.max(
+      0,
+      person.secondsRemaining - (difference * 60)
+    );
+
 
   });
 
 
 
+  previousRotation = minutes;
+
+
+
   document.getElementById("dashboardRotation").innerText =
-    "Current Rotation: " + minutes + " Minutes";
+  "Current Rotation: " + minutes + " Minutes";
 
 
   document.getElementById("rotationMessage").innerText =
-    "Rotation updated. Timers reset to "
-    + minutes + " minutes.";
+
+  "🔥 Heat increased. Timers adjusted from "
+  + oldRotation +
+  " to "
+  + minutes +
+  " minutes.";
+
 
 
   renderDashboard();
@@ -304,27 +322,57 @@ function changeShiftRotation(minutes){
 
 
 
+function pauseTimers(){
+
+  timersPaused=true;
+
+
+  document.getElementById("pauseMessage").innerText =
+  "⏸ HEATSYNC PAUSED — TIMERS FROZEN";
+
+}
+
+
+
+
+function resumeTimers(){
+
+  timersPaused=false;
+
+
+  document.getElementById("pauseMessage").innerText =
+  "🔥 HEATSYNC ACTIVE";
+
+}
+
+
+
+
 
 function switchConfirm(index){
 
-  let person = shiftData[index];
+
+  let person =
+  shiftData[index];
 
 
   let answer = confirm(
 
-    "CONFIRM SWITCH\n\n" +
+  "CONFIRM SWITCH\n\n" +
 
-    person.outside +
+  person.outside +
 
-    " is back inside.\n\n" +
+  " is back inside.\n\n" +
 
-    person.inside +
+  person.inside +
 
-    " is now outside.\n\n" +
+  " is now outside.\n\n" +
 
-    "Start " +
-    rotationTime +
-    " minute timer?"
+  "Start " +
+
+  rotationTime +
+
+  " minute timer?"
 
   );
 
@@ -334,22 +382,23 @@ function switchConfirm(index){
 
 
     let oldOutside =
-      person.outside;
+    person.outside;
 
 
     person.outside =
-      person.inside;
+    person.inside;
 
 
     person.inside =
-      oldOutside;
+    oldOutside;
 
 
     person.secondsRemaining =
-      rotationTime * 60;
+    rotationTime * 60;
 
 
     renderDashboard();
+
 
   }
 
@@ -362,76 +411,89 @@ function switchConfirm(index){
 
 function updateAttentionBanner(){
 
-  let banner =
-    document.getElementById("attentionBanner");
+let banner =
+document.getElementById("attentionBanner");
 
 
-  if(!banner){
-    return;
-  }
-
-
-  let alerts = [];
-
-
-  shiftData.forEach(person=>{
-
-
-    if(person.secondsRemaining <= 0){
-
-
-      alerts.push(
-
-        "🚨 " +
-        person.position +
-        "<br>" +
-        person.outside +
-        " switch with " +
-        person.inside +
-        "<br>OVERDUE " +
-        formatTime(Math.abs(person.secondsRemaining))
-
-      );
-
-    }
-
-  });
+if(!banner){
+return;
+}
 
 
 
-  if(alerts.length === 0){
-
-    banner.innerHTML =
-      "✅ ALL ROTATIONS ON TRACK";
-
-    banner.style.background =
-      "#dcfce7";
-
-    banner.style.color =
-      "#166534";
-
-  }
-
-  else{
-
-    banner.innerHTML =
-      alerts.join("<br><br>");
-
-    banner.style.background =
-      "#fee2e2";
-
-    banner.style.color =
-      "#991b1b";
-
-  }
+let alerts=[];
 
 
-  banner.style.padding = "25px";
-  banner.style.borderRadius = "18px";
-  banner.style.fontSize = "24px";
-  banner.style.fontWeight = "bold";
-  banner.style.textAlign = "center";
-  banner.style.marginTop = "20px";
+
+shiftData.forEach(person=>{
+
+
+if(person.secondsRemaining <=0){
+
+
+alerts.push(
+
+"🚨 " +
+person.position +
+"<br>" +
+
+person.outside +
+" switch with " +
+person.inside +
+
+"<br>OVERDUE " +
+
+formatTime(Math.abs(person.secondsRemaining))
+
+);
+
+
+}
+
+
+});
+
+
+
+if(alerts.length===0){
+
+
+banner.innerHTML =
+"✅ ALL ROTATIONS ON TRACK";
+
+banner.style.background="#dcfce7";
+
+banner.style.color="#166534";
+
+
+}
+
+else{
+
+
+banner.innerHTML =
+alerts.join("<br><br>");
+
+
+banner.style.background="#fee2e2";
+
+banner.style.color="#991b1b";
+
+
+}
+
+
+
+banner.style.padding="25px";
+
+banner.style.borderRadius="18px";
+
+banner.style.fontSize="24px";
+
+banner.style.fontWeight="bold";
+
+banner.style.textAlign="center";
+
 
 }
 
@@ -439,19 +501,20 @@ function updateAttentionBanner(){
 
 
 
+
 function formatTime(seconds){
 
-  let minutes =
-    Math.floor(seconds / 60);
+let minutes =
+Math.floor(seconds/60);
 
 
-  let secs =
-    seconds % 60;
+let secs =
+seconds % 60;
 
 
-  return minutes +
-    ":" +
-    secs.toString().padStart(2,"0");
+return minutes +
+":" +
+secs.toString().padStart(2,"0");
 
 }
 
