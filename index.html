@@ -14,7 +14,9 @@
 <h1>🔥 HeatSync</h1>
 <p class="subtitle">Outdoor Rotation Manager</p>
 
-<div class="card">
+
+<div class="card" id="setupCard">
+
 <h2>Today's Rotation</h2>
 
 <div class="timer-buttons">
@@ -23,18 +25,18 @@
 <button onclick="setRotation(20)">20 MIN</button>
 </div>
 
-<p id="rotationDisplay">Current Rotation: 45 Minutes</p>
+<p id="rotationDisplay">
+Current Rotation: 45 Minutes
+</p>
 
 </div>
 
 
-<div class="card">
+<div class="card" id="teamSetup">
 
 <h2>Set Shift Team</h2>
 
-<div id="positions">
-
-</div>
+<div id="positions"></div>
 
 </div>
 
@@ -42,15 +44,25 @@
 <button class="start-button" onclick="startShift()">
 START SHIFT
 </button>
+
+
 <div id="dashboard" style="display:none;">
+
+<div class="card">
 
 <h2>🔥 HeatSync Dashboard</h2>
 
-<p id="dashboardRotation"></p>
+<p id="dashboardRotation">
+</p>
+
+</div>
+
 
 <div id="dashboardPositions"></div>
 
+
 </div>
+
 
 </div>
 
