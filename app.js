@@ -15,6 +15,7 @@ const positions = [
 
 
 function setRotation(minutes) {
+
   rotationTime = minutes;
 
   document.getElementById("rotationDisplay").innerText =
@@ -24,30 +25,33 @@ function setRotation(minutes) {
     document.getElementById("dashboardRotation").innerText =
     "Current Rotation: " + minutes + " Minutes (New switches)";
   }
+
 }
+
 
 
 function loadPositions(){
 
-  const container = document.getElementById("positions");
+  const container =
+  document.getElementById("positions");
 
-  container.innerHTML="";
+  container.innerHTML = "";
 
-  positions.forEach(position=>{
+  positions.forEach(position => {
 
-    const card=document.createElement("div");
+    const card = document.createElement("div");
 
-    card.className="position-card";
+    card.className = "position-card";
 
-    card.innerHTML=`
+    card.innerHTML = `
 
-    <h3>${position}</h3>
+      <h3>${position}</h3>
 
-    <input id="${position}-outside"
-    placeholder="Outside Employee">
+      <input id="${position}-outside"
+      placeholder="Outside Employee">
 
-    <input id="${position}-inside"
-    placeholder="Inside Partner">
+      <input id="${position}-inside"
+      placeholder="Inside Partner">
 
     `;
 
@@ -59,12 +63,13 @@ function loadPositions(){
 
 
 
+
 function startShift(){
 
-  shiftData=[];
+  shiftData = [];
 
 
-  positions.forEach(position=>{
+  positions.forEach(position => {
 
 
     const outside =
@@ -77,16 +82,15 @@ function startShift(){
 
     shiftData.push({
 
-      position,
-      outside,
-      inside,
+      position: position,
+      outside: outside,
+      inside: inside,
       secondsRemaining: rotationTime * 60
 
     });
 
 
   });
-
 
 
   document.getElementById("setupCard").style.display="none";
@@ -102,175 +106,287 @@ function startShift(){
 
 
 
+
 function renderDashboard(){
 
-const container =
-document.getElementById("dashboardPositions");
+  const container =
+  document.getElementById("dashboardPositions");
 
-container.innerHTML="";
-
-
-shiftData.forEach((person,index)=>{
+  container.innerHTML = "";
 
 
-let status="green";
+  updateAttentionBanner();
 
-if(person.secondsRemaining <=300 &&
-person.secondsRemaining >0){
 
-status="yellow";
+  shiftData.forEach((person,index)=>{
+
+
+    let status = "green";
+
+
+    if(person.secondsRemaining <= 300 &&
+       person.secondsRemaining > 0){
+
+      status = "yellow";
+
+    }
+
+
+    if(person.secondsRemaining <= 0){
+
+      status = "red";
+
+    }
+
+
+
+    const card = document.createElement("div");
+
+    card.className =
+    "position-card " + status;
+
+
+
+    card.innerHTML = `
+
+      <h2>${person.position}</h2>
+
+      <p>
+      Outside:
+      <b>${person.outside}</b>
+      </p>
+
+
+      <p>
+      Inside:
+      <b>${person.inside}</b>
+      </p>
+
+
+      <h1>
+
+      ${
+        person.secondsRemaining <= 0
+
+        ?
+
+        "🔴 SWITCH NOW<br>OVERDUE " +
+        formatTime(Math.abs(person.secondsRemaining))
+
+        :
+
+        formatTime(person.secondsRemaining)
+
+      }
+
+      </h1>
+
+
+
+      <button onclick="switchConfirm(${index})">
+
+      I'M BACK — START PARTNER TIMER
+
+      </button>
+
+    `;
+
+
+    container.appendChild(card);
+
+
+    startTimer(index);
+
+
+  });
 
 }
 
-if(person.secondsRemaining <=0){
-
-status="red";
-
-}
-
-
-const card=document.createElement("div");
-
-card.className =
-"position-card "+status;
-
-
-
-card.innerHTML=`
-
-<h2>${person.position}</h2>
-
-<p>
-Outside:
-<b>${person.outside}</b>
-</p>
-
-<p>
-Inside:
-<b>${person.inside}</b>
-</p>
-
-
-<h1>
-${person.secondsRemaining <=0 ? 
-"🔴 SWITCH NOW<br>OVERDUE " +
-formatTime(Math.abs(person.secondsRemaining))
-:
-formatTime(person.secondsRemaining)}
-</h1>
-
-
-<button onclick="switchConfirm(${index})">
-
-I'M BACK — START PARTNER TIMER
-
-</button>
-
-`;
-
-container.appendChild(card);
-
-
-startTimer(index);
-
-
-});
-
-
-}
 
 
 
 function startTimer(index){
 
-clearInterval(timerIntervals[index]);
+  clearInterval(timerIntervals[index]);
 
 
-timerIntervals[index]=setInterval(()=>{
+  timerIntervals[index] = setInterval(()=>{
 
 
-shiftData[index].secondsRemaining--;
+    shiftData[index].secondsRemaining--;
 
 
-renderDashboard();
+    renderDashboard();
 
 
-},1000);
+  },1000);
 
 
 }
+
+
 
 
 
 function switchConfirm(index){
 
-const person=shiftData[index];
+
+  const person = shiftData[index];
 
 
-const answer =
-confirm(
+  const answer = confirm(
 
-"CONFIRM SWITCH\n\n" +
+    "CONFIRM SWITCH\n\n" +
 
-person.outside +
+    person.outside +
 
-" is back inside.\n\n" +
+    " is back inside.\n\n" +
 
-person.inside +
+    person.inside +
 
-" is now outside.\n\n" +
+    " is now outside.\n\n" +
 
-"Start " +
+    "Start " +
 
-rotationTime +
+    rotationTime +
 
-" minute timer?"
+    " minute timer?"
 
-);
-
+  );
 
 
-if(answer){
+
+  if(answer){
 
 
-const oldOutside =
-person.outside;
+    const oldOutside =
+    person.outside;
 
 
-person.outside =
-person.inside;
+    person.outside =
+    person.inside;
 
 
-person.inside =
-oldOutside;
+    person.inside =
+    oldOutside;
 
 
-person.secondsRemaining =
-rotationTime * 60;
+
+    person.secondsRemaining =
+    rotationTime * 60;
+
+
+    renderDashboard();
+
+  }
 
 
 }
 
+
+
+
+
+function updateAttentionBanner(){
+
+  const banner =
+  document.getElementById("attentionBanner");
+
+
+  if(!banner) return;
+
+
+  let alerts = [];
+
+
+
+  shiftData.forEach(person=>{
+
+
+    if(person.secondsRemaining <= 0){
+
+
+      alerts.push(
+
+        "🚨 " +
+        person.position +
+        ": " +
+        person.outside +
+        " switch with " +
+        person.inside +
+        " — OVERDUE " +
+        formatTime(Math.abs(person.secondsRemaining))
+
+      );
+
+
+    }
+
+
+  });
+
+
+
+  if(alerts.length === 0){
+
+
+    banner.innerHTML =
+    "✅ ALL ROTATIONS ON TRACK";
+
+
+    banner.style.background =
+    "#dcfce7";
+
+
+  }
+
+  else{
+
+
+    banner.innerHTML =
+    alerts.join("<br><br>");
+
+
+    banner.style.background =
+    "#fee2e2";
+
+
+  }
+
+
+
+  banner.style.padding = "20px";
+
+  banner.style.borderRadius = "15px";
+
+  banner.style.fontSize = "22px";
+
+  banner.style.fontWeight = "bold";
+
+
 }
+
+
 
 
 
 function formatTime(seconds){
 
-let minutes =
-Math.floor(seconds/60);
+  let minutes =
+  Math.floor(seconds / 60);
 
 
-let secs =
-seconds % 60;
+  let secs =
+  seconds % 60;
 
 
-return minutes +
-":" +
-secs.toString().padStart(2,"0");
+  return minutes +
+  ":" +
+  secs.toString().padStart(2,"0");
 
 }
 
 
 
-window.onload=loadPositions;
+
+window.onload = loadPositions;
