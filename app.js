@@ -5,115 +5,103 @@ let timersPaused = false;
 
 
 const positions = [
-"Cash 1",
-"Cash 2",
-"IPOS 1",
-"IPOS 2",
-"IPOS 3",
-"IPOS 4",
-"Expo 1",
-"Expo 2"
+  "Cash 1",
+  "Cash 2",
+  "IPOS 1",
+  "IPOS 2",
+  "IPOS 3",
+  "IPOS 4",
+  "Expo 1",
+  "Expo 2"
 ];
 
 
 
-function setRotation(minutes){
+function setRotation(minutes) {
 
-rotationTime = minutes;
+  rotationTime = minutes;
 
-document.getElementById("rotationDisplay").innerText =
-"Current Rotation: " + minutes + " Minutes";
+  document.getElementById("rotationDisplay").innerText =
+    "Current Rotation: " + minutes + " Minutes";
 
 }
 
 
 
-function loadPositions(){
+function loadPositions() {
 
-const container =
-document.getElementById("positions");
+  const container = document.getElementById("positions");
 
-container.innerHTML="";
+  container.innerHTML = "";
 
+  positions.forEach(position => {
 
-positions.forEach(position=>{
+    let card = document.createElement("div");
 
-let card=document.createElement("div");
+    card.className = "position-card";
 
-card.className="position-card";
+    card.innerHTML = `
+      <h3>${position}</h3>
 
+      <input id="${position}-outside"
+      placeholder="Outside Employee">
 
-card.innerHTML=`
+      <input id="${position}-inside"
+      placeholder="Inside Partner">
+    `;
 
-<h3>${position}</h3>
+    container.appendChild(card);
 
-<input id="${position}-outside"
-placeholder="Outside Employee">
-
-<input id="${position}-inside"
-placeholder="Inside Partner">
-
-`;
-
-
-container.appendChild(card);
-
-
-});
-
+  });
 
 }
 
 
 
 
-function startShift(){
+function startShift() {
 
-shiftData=[];
-
-
-positions.forEach(position=>{
+  shiftData = [];
 
 
-let outside =
-document.getElementById(`${position}-outside`).value || "None";
+  positions.forEach(position => {
+
+    let outside =
+      document.getElementById(`${position}-outside`).value || "None";
 
 
-let inside =
-document.getElementById(`${position}-inside`).value || "None";
+    let inside =
+      document.getElementById(`${position}-inside`).value || "None";
 
 
+    shiftData.push({
 
-shiftData.push({
+      position: position,
+      outside: outside,
+      inside: inside,
+      secondsRemaining: rotationTime * 60
 
-position: position,
-outside: outside,
-inside: inside,
-secondsRemaining: rotationTime * 60
+    });
 
-});
-
-
-});
+  });
 
 
 
-document.getElementById("setupCard").style.display="none";
+  document.getElementById("setupCard").style.display = "none";
 
-document.getElementById("teamSetup").style.display="none";
+  document.getElementById("teamSetup").style.display = "none";
 
-document.querySelector(".start-button").style.display="none";
-
-
-document.getElementById("dashboard").style.display="block";
+  document.querySelector(".start-button").style.display = "none";
 
 
-document.getElementById("dashboardRotation").innerText =
-"Current Rotation: " + rotationTime + " Minutes";
+  document.getElementById("dashboard").style.display = "block";
 
 
-renderDashboard();
+  document.getElementById("dashboardRotation").innerText =
+    "Current Rotation: " + rotationTime + " Minutes";
 
+
+  renderDashboard();
 
 }
 
@@ -121,133 +109,161 @@ renderDashboard();
 
 
 
-function renderDashboard(){
 
-const container =
-document.getElementById("dashboardPositions");
+function renderDashboard() {
 
-
-container.innerHTML="";
+  const container =
+    document.getElementById("dashboardPositions");
 
 
-updateAttentionBanner();
+  container.innerHTML = "";
 
 
-
-shiftData.forEach((person,index)=>{
-
-
-let status="green";
-
-
-if(person.secondsRemaining <=300 &&
-person.secondsRemaining >0){
-
-status="yellow";
-
-}
-
-
-if(person.secondsRemaining <=0){
-
-status="red";
-
-}
+  updateAttentionBanner();
 
 
 
-let card=document.createElement("div");
+  shiftData.forEach((person,index)=>{
 
 
-card.className =
-"position-card " + status;
+    let status = "green";
 
 
+    if(person.secondsRemaining <= 300 &&
+       person.secondsRemaining > 0){
 
-card.innerHTML=`
+      status = "yellow";
 
-<h2>${person.position}</h2>
-
-
-<p>
-Outside:
-<b>${person.outside}</b>
-</p>
+    }
 
 
-<p>
-Inside:
-<b>${person.inside}</b>
-</p>
+    if(person.secondsRemaining <= 0){
 
+      status = "red";
 
-<h1>
-
-${
-person.secondsRemaining <=0
-
-?
-
-"🔴 SWITCH NOW<br>OVERDUE " +
-formatTime(Math.abs(person.secondsRemaining))
-
-:
-
-formatTime(person.secondsRemaining)
-
-}
-
-</h1>
+    }
 
 
 
-<button onclick="switchConfirm(${index})">
+    let card = document.createElement("div");
 
-I'M BACK — START PARTNER TIMER
-
-</button>
-
-`;
+    card.className =
+      "position-card " + status;
 
 
 
-container.appendChild(card);
+    card.innerHTML = `
+
+      <h2>${person.position}</h2>
+
+      <p>
+      Outside:
+      <b>${person.outside}</b>
+      </p>
+
+      <p>
+      Inside:
+      <b>${person.inside}</b>
+      </p>
 
 
-startTimer(index);
+      <h1>
+      ${
+        person.secondsRemaining <= 0
+        ?
+        "🔴 SWITCH NOW<br>OVERDUE " +
+        formatTime(Math.abs(person.secondsRemaining))
+        :
+        formatTime(person.secondsRemaining)
+      }
+      </h1>
 
 
-});
+      <button onclick="switchConfirm(${index})">
+      I'M BACK — START PARTNER TIMER
+      </button>
 
+    `;
+
+
+    container.appendChild(card);
+
+
+  });
+
+
+  startAllTimers();
 
 }
 
 
 
 
-function startTimer(index){
-
-clearInterval(timerIntervals[index]);
 
 
-timerIntervals[index] = setInterval(function(){
+function startAllTimers(){
+
+  Object.values(timerIntervals).forEach(timer=>{
+    clearInterval(timer);
+  });
 
 
-if(timersPaused){
+  timerIntervals = {};
 
-return;
+
+
+  shiftData.forEach((person,index)=>{
+
+
+    timerIntervals[index] = setInterval(()=>{
+
+
+      if(timersPaused){
+        return;
+      }
+
+
+      person.secondsRemaining--;
+
+
+      renderDashboard();
+
+
+    },1000);
+
+
+  });
 
 }
 
 
 
-shiftData[index].secondsRemaining--;
 
 
-renderDashboard();
 
 
-},1000);
+function pauseTimers(){
+
+  timersPaused = true;
+
+
+  document.getElementById("pauseMessage").innerText =
+    "⏸ HEATSYNC PAUSED — TIMERS FROZEN";
+
+
+}
+
+
+
+
+
+function resumeTimers(){
+
+  timersPaused = false;
+
+
+  document.getElementById("pauseMessage").innerText =
+    "🔥 HEATSYNC ACTIVE";
 
 
 }
@@ -259,57 +275,28 @@ renderDashboard();
 
 function changeShiftRotation(minutes){
 
-rotationTime = minutes;
+  rotationTime = minutes;
 
 
-shiftData.forEach(person=>{
+  shiftData.forEach(person=>{
 
-person.secondsRemaining = minutes * 60;
+    person.secondsRemaining =
+      minutes * 60;
 
-});
-
-
-
-document.getElementById("dashboardRotation").innerText =
-"Current Rotation: " + minutes + " Minutes";
-
-
-document.getElementById("rotationMessage").innerText =
-"Rotation updated. All timers reset to " 
-+ minutes + " minutes.";
-
-
-renderDashboard();
-
-
-}
+  });
 
 
 
+  document.getElementById("dashboardRotation").innerText =
+    "Current Rotation: " + minutes + " Minutes";
 
 
-
-function pauseTimers(){
-
-timersPaused = true;
-
-
-document.getElementById("pauseMessage").innerText =
-"⏸ HeatSync Paused — Timers Frozen";
+  document.getElementById("rotationMessage").innerText =
+    "Rotation updated. Timers reset to "
+    + minutes + " minutes.";
 
 
-}
-
-
-
-function resumeTimers(){
-
-timersPaused = false;
-
-
-document.getElementById("pauseMessage").innerText =
-"🔥 HeatSync Active — Timers Running";
-
+  renderDashboard();
 
 }
 
@@ -321,55 +308,54 @@ document.getElementById("pauseMessage").innerText =
 
 function switchConfirm(index){
 
+  let person = shiftData[index];
 
-let person = shiftData[index];
 
+  let answer = confirm(
 
-let answer = confirm(
+    "CONFIRM SWITCH\n\n" +
 
-"CONFIRM SWITCH\n\n" +
+    person.outside +
 
-person.outside +
+    " is back inside.\n\n" +
 
-" is back inside.\n\n" +
+    person.inside +
 
-person.inside +
+    " is now outside.\n\n" +
 
-" is now outside.\n\n" +
+    "Start " +
+    rotationTime +
+    " minute timer?"
 
-"Start " +
-
-rotationTime +
-
-" minute timer?"
-
-);
+  );
 
 
 
-if(answer){
+  if(answer){
 
 
-let oldOutside = person.outside;
+    let oldOutside =
+      person.outside;
 
 
-person.outside = person.inside;
+    person.outside =
+      person.inside;
 
 
-person.inside = oldOutside;
+    person.inside =
+      oldOutside;
 
 
-person.secondsRemaining =
-rotationTime * 60;
+    person.secondsRemaining =
+      rotationTime * 60;
 
 
-renderDashboard();
+    renderDashboard();
 
-
-}
-
+  }
 
 }
+
 
 
 
@@ -377,79 +363,80 @@ renderDashboard();
 
 function updateAttentionBanner(){
 
-let banner =
-document.getElementById("attentionBanner");
+  let banner =
+    document.getElementById("attentionBanner");
 
 
-if(!banner) return;
+  if(!banner){
+    return;
+  }
 
 
-let alerts=[];
+  let alerts = [];
+
+
+  shiftData.forEach(person=>{
+
+
+    if(person.secondsRemaining <= 0){
+
+
+      alerts.push(
+
+        "🚨 " +
+        person.position +
+        ": " +
+        person.outside +
+        " switch with " +
+        person.inside +
+        " — OVERDUE " +
+        formatTime(Math.abs(person.secondsRemaining))
+
+      );
+
+    }
+
+  });
 
 
 
-shiftData.forEach(person=>{
+  if(alerts.length === 0){
 
+    banner.innerHTML =
+      "✅ ALL ROTATIONS ON TRACK";
 
-if(person.secondsRemaining <=0){
+  }
 
+  else{
 
-alerts.push(
+    banner.innerHTML =
+      alerts.join("<br><br>");
 
-"🚨 " +
-person.position +
-": " +
-person.outside +
-" switch with " +
-person.inside +
-" — OVERDUE " +
-formatTime(Math.abs(person.secondsRemaining))
-
-);
-
-
-}
-
-
-});
-
-
-
-if(alerts.length===0){
-
-banner.innerHTML =
-"✅ ALL ROTATIONS ON TRACK";
-
-}
-
-else{
-
-banner.innerHTML =
-alerts.join("<br><br>");
-
-}
-
+  }
 
 }
+
 
 
 
 
 function formatTime(seconds){
 
-let minutes =
-Math.floor(seconds/60);
+  let minutes =
+    Math.floor(seconds / 60);
 
 
-let secs =
-seconds % 60;
+  let secs =
+    seconds % 60;
 
 
-return minutes +
-":" +
-secs.toString().padStart(2,"0");
+  return minutes +
+    ":" +
+    secs.toString().padStart(2,"0");
 
 }
+
+
 
 
 
