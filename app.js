@@ -30,7 +30,8 @@ function setRotation(minutes) {
 
 function loadPositions() {
 
-  const container = document.getElementById("positions");
+  const container =
+    document.getElementById("positions");
 
   container.innerHTML = "";
 
@@ -265,9 +266,7 @@ function resumeTimers(){
   document.getElementById("pauseMessage").innerText =
     "🔥 HEATSYNC ACTIVE";
 
-
 }
-
 
 
 
@@ -385,11 +384,11 @@ function updateAttentionBanner(){
 
         "🚨 " +
         person.position +
-        ": " +
+        "<br>" +
         person.outside +
         " switch with " +
         person.inside +
-        " — OVERDUE " +
+        "<br>OVERDUE " +
         formatTime(Math.abs(person.secondsRemaining))
 
       );
@@ -405,6 +404,12 @@ function updateAttentionBanner(){
     banner.innerHTML =
       "✅ ALL ROTATIONS ON TRACK";
 
+    banner.style.background =
+      "#dcfce7";
+
+    banner.style.color =
+      "#166534";
+
   }
 
   else{
@@ -412,7 +417,21 @@ function updateAttentionBanner(){
     banner.innerHTML =
       alerts.join("<br><br>");
 
+    banner.style.background =
+      "#fee2e2";
+
+    banner.style.color =
+      "#991b1b";
+
   }
+
+
+  banner.style.padding = "25px";
+  banner.style.borderRadius = "18px";
+  banner.style.fontSize = "24px";
+  banner.style.fontWeight = "bold";
+  banner.style.textAlign = "center";
+  banner.style.marginTop = "20px";
 
 }
 
