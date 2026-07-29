@@ -1,9 +1,8 @@
 let rotationTime = 45;
-let previousRotation = 45;
-
 let shiftData = [];
 let timerIntervals = {};
 let timersPaused = false;
+let alertedPositions = [];
 
 
 const positions = [
@@ -22,32 +21,31 @@ const positions = [
 function setRotation(minutes) {
 
   rotationTime = minutes;
-  previousRotation = minutes;
 
   document.getElementById("rotationDisplay").innerText =
-    "Current Rotation: " + minutes + " Minutes";
+  "Current Rotation: " + minutes + " Minutes";
 
 }
-
 
 
 
 function loadPositions(){
 
   const container =
-    document.getElementById("positions");
+  document.getElementById("positions");
 
   container.innerHTML = "";
 
 
   positions.forEach(position=>{
 
-    let card = document.createElement("div");
 
-    card.className = "position-card";
+    let card=document.createElement("div");
+
+    card.className="position-card";
 
 
-    card.innerHTML = `
+    card.innerHTML=`
 
     <h3>${position}</h3>
 
@@ -62,6 +60,7 @@ function loadPositions(){
 
     container.appendChild(card);
 
+
   });
 
 }
@@ -72,7 +71,7 @@ function loadPositions(){
 
 function startShift(){
 
-  shiftData = [];
+  shiftData=[];
 
 
   positions.forEach(position=>{
@@ -84,6 +83,7 @@ function startShift(){
 
     let inside =
     document.getElementById(`${position}-inside`).value || "None";
+
 
 
     shiftData.push({
@@ -117,6 +117,8 @@ function startShift(){
   renderDashboard();
 
 }
+
+
 
 
 
@@ -165,7 +167,7 @@ function renderDashboard(){
 
 
 
-    card.innerHTML = `
+    card.innerHTML=`
 
     <h2>${person.position}</h2>
 
@@ -207,8 +209,8 @@ function renderDashboard(){
 
     </button>
 
-    `;
 
+    `;
 
 
     container.appendChild(card);
@@ -226,7 +228,9 @@ function renderDashboard(){
 
 
 
+
 function startTimers(){
+
 
   Object.values(timerIntervals).forEach(timer=>{
     clearInterval(timer);
@@ -259,7 +263,9 @@ function startTimers(){
 
   });
 
+
 }
+
 
 
 
@@ -269,12 +275,12 @@ function startTimers(){
 function changeShiftRotation(minutes){
 
 
-  let oldRotation = rotationTime;
+  let oldRotation =
+  rotationTime;
 
 
   let difference =
   oldRotation - minutes;
-
 
 
   rotationTime = minutes;
@@ -295,16 +301,11 @@ function changeShiftRotation(minutes){
 
 
 
-  previousRotation = minutes;
-
-
-
   document.getElementById("dashboardRotation").innerText =
   "Current Rotation: " + minutes + " Minutes";
 
 
   document.getElementById("rotationMessage").innerText =
-
   "🔥 Heat increased. Timers adjusted from "
   + oldRotation +
   " to "
@@ -316,6 +317,7 @@ function changeShiftRotation(minutes){
   renderDashboard();
 
 }
+
 
 
 
@@ -335,6 +337,7 @@ function pauseTimers(){
 
 
 
+
 function resumeTimers(){
 
   timersPaused=false;
@@ -344,6 +347,8 @@ function resumeTimers(){
   "🔥 HEATSYNC ACTIVE";
 
 }
+
+
 
 
 
@@ -397,6 +402,13 @@ function switchConfirm(index){
     rotationTime * 60;
 
 
+
+    alertedPositions =
+    alertedPositions.filter(
+      item => item !== person.position
+    );
+
+
     renderDashboard();
 
 
@@ -409,7 +421,60 @@ function switchConfirm(index){
 
 
 
+
+function announceSwitch(person){
+
+
+  if(alertedPositions.includes(person.position)){
+    return;
+  }
+
+
+  alertedPositions.push(person.position);
+
+
+
+  let message =
+  person.position +
+  ". " +
+  person.outside +
+  " switch with " +
+  person.inside;
+
+
+
+  let speech =
+  new SpeechSynthesisUtterance(message);
+
+
+  speech.rate = 1;
+
+  speech.pitch = 1;
+
+
+  window.speechSynthesis.speak(speech);
+
+
+
+  let beep =
+  new Audio(
+  "https://actions.google.com/sounds/v1/alarms/beep_short.ogg"
+  );
+
+
+  beep.play();
+
+
+}
+
+
+
+
+
+
+
 function updateAttentionBanner(){
+
 
 let banner =
 document.getElementById("attentionBanner");
@@ -429,6 +494,10 @@ shiftData.forEach(person=>{
 
 
 if(person.secondsRemaining <=0){
+
+
+announceSwitch(person);
+
 
 
 alerts.push(
@@ -460,6 +529,7 @@ if(alerts.length===0){
 
 banner.innerHTML =
 "✅ ALL ROTATIONS ON TRACK";
+
 
 banner.style.background="#dcfce7";
 
@@ -502,6 +572,7 @@ banner.style.textAlign="center";
 
 
 
+
 function formatTime(seconds){
 
 let minutes =
@@ -517,7 +588,6 @@ return minutes +
 secs.toString().padStart(2,"0");
 
 }
-
 
 
 
