@@ -14,6 +14,7 @@ const positions = [
 ];
 
 
+
 function setRotation(minutes) {
 
   rotationTime = minutes;
@@ -21,19 +22,14 @@ function setRotation(minutes) {
   document.getElementById("rotationDisplay").innerText =
     "Current Rotation: " + minutes + " Minutes";
 
-  if(document.getElementById("dashboardRotation")){
-    document.getElementById("dashboardRotation").innerText =
-    "Current Rotation: " + minutes + " Minutes (New switches)";
-  }
-
 }
 
 
 
-function loadPositions(){
+function loadPositions() {
 
   const container =
-  document.getElementById("positions");
+    document.getElementById("positions");
 
   container.innerHTML = "";
 
@@ -47,10 +43,12 @@ function loadPositions(){
 
       <h3>${position}</h3>
 
-      <input id="${position}-outside"
+      <input 
+      id="${position}-outside"
       placeholder="Outside Employee">
 
-      <input id="${position}-inside"
+      <input 
+      id="${position}-inside"
       placeholder="Inside Partner">
 
     `;
@@ -64,20 +62,18 @@ function loadPositions(){
 
 
 
-function startShift(){
+function startShift() {
 
   shiftData = [];
 
 
   positions.forEach(position => {
 
-
     const outside =
-    document.getElementById(`${position}-outside`).value || "None";
-
+      document.getElementById(`${position}-outside`).value || "None";
 
     const inside =
-    document.getElementById(`${position}-inside`).value || "None";
+      document.getElementById(`${position}-inside`).value || "None";
 
 
     shiftData.push({
@@ -89,15 +85,22 @@ function startShift(){
 
     });
 
-
   });
 
 
-  document.getElementById("setupCard").style.display="none";
-  document.getElementById("teamSetup").style.display="none";
-  document.querySelector(".start-button").style.display="none";
 
-  document.getElementById("dashboard").style.display="block";
+  document.getElementById("setupCard").style.display = "none";
+
+  document.getElementById("teamSetup").style.display = "none";
+
+  document.querySelector(".start-button").style.display = "none";
+
+
+  document.getElementById("dashboard").style.display = "block";
+
+
+  document.getElementById("dashboardRotation").innerText =
+    "Current Rotation: " + rotationTime + " Minutes";
 
 
   renderDashboard();
@@ -107,15 +110,16 @@ function startShift(){
 
 
 
-function renderDashboard(){
+function renderDashboard() {
 
   const container =
-  document.getElementById("dashboardPositions");
+    document.getElementById("dashboardPositions");
 
   container.innerHTML = "";
 
 
   updateAttentionBanner();
+
 
 
   shiftData.forEach((person,index)=>{
@@ -125,14 +129,14 @@ function renderDashboard(){
 
 
     if(person.secondsRemaining <= 300 &&
-       person.secondsRemaining > 0){
+       person.secondsRemaining > 0) {
 
       status = "yellow";
 
     }
 
 
-    if(person.secondsRemaining <= 0){
+    if(person.secondsRemaining <= 0) {
 
       status = "red";
 
@@ -143,13 +147,14 @@ function renderDashboard(){
     const card = document.createElement("div");
 
     card.className =
-    "position-card " + status;
+      "position-card " + status;
 
 
 
     card.innerHTML = `
 
       <h2>${person.position}</h2>
+
 
       <p>
       Outside:
@@ -205,7 +210,8 @@ function renderDashboard(){
 
 
 
-function startTimer(index){
+
+function startTimer(index) {
 
   clearInterval(timerIntervals[index]);
 
@@ -221,14 +227,13 @@ function startTimer(index){
 
   },1000);
 
-
 }
 
 
 
 
 
-function switchConfirm(index){
+function switchConfirm(index) {
 
 
   const person = shiftData[index];
@@ -256,30 +261,28 @@ function switchConfirm(index){
 
 
 
-  if(answer){
+  if(answer) {
 
 
     const oldOutside =
-    person.outside;
+      person.outside;
 
 
     person.outside =
-    person.inside;
+      person.inside;
 
 
     person.inside =
-    oldOutside;
-
+      oldOutside;
 
 
     person.secondsRemaining =
-    rotationTime * 60;
+      rotationTime * 60;
 
 
     renderDashboard();
 
   }
-
 
 }
 
@@ -287,23 +290,45 @@ function switchConfirm(index){
 
 
 
-function updateAttentionBanner(){
+function changeShiftRotation(minutes) {
+
+  rotationTime = minutes;
+
+
+  document.getElementById("dashboardRotation").innerText =
+    "Current Rotation: " + minutes + " Minutes";
+
+
+  document.getElementById("rotationMessage").innerText =
+    "Rotation updated. Existing timers unchanged. New switches will use "
+    + minutes + " minutes.";
+
+}
+
+
+
+
+
+
+function updateAttentionBanner() {
+
 
   const banner =
-  document.getElementById("attentionBanner");
+    document.getElementById("attentionBanner");
 
 
   if(!banner) return;
+
 
 
   let alerts = [];
 
 
 
-  shiftData.forEach(person=>{
+  shiftData.forEach(person => {
 
 
-    if(person.secondsRemaining <= 0){
+    if(person.secondsRemaining <= 0) {
 
 
       alerts.push(
@@ -319,7 +344,6 @@ function updateAttentionBanner(){
 
       );
 
-
     }
 
 
@@ -327,29 +351,26 @@ function updateAttentionBanner(){
 
 
 
-  if(alerts.length === 0){
+  if(alerts.length === 0) {
 
 
     banner.innerHTML =
-    "✅ ALL ROTATIONS ON TRACK";
+      "✅ ALL ROTATIONS ON TRACK";
 
 
     banner.style.background =
-    "#dcfce7";
+      "#dcfce7";
 
 
-  }
-
-  else{
+  } else {
 
 
     banner.innerHTML =
-    alerts.join("<br><br>");
+      alerts.join("<br><br>");
 
 
     banner.style.background =
-    "#fee2e2";
-
+      "#fee2e2";
 
   }
 
@@ -370,21 +391,23 @@ function updateAttentionBanner(){
 
 
 
-function formatTime(seconds){
+function formatTime(seconds) {
+
 
   let minutes =
-  Math.floor(seconds / 60);
+    Math.floor(seconds / 60);
 
 
   let secs =
-  seconds % 60;
+    seconds % 60;
 
 
   return minutes +
-  ":" +
-  secs.toString().padStart(2,"0");
+    ":" +
+    secs.toString().padStart(2,"0");
 
 }
+
 
 
 
