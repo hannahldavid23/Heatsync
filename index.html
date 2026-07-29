@@ -2,14 +2,14 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>HeatSync</title>
+<title>HeatSync</title>
 
-  <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css">
+
 </head>
-
 
 <body>
 
@@ -23,13 +23,11 @@ Outdoor Rotation Manager
 </p>
 
 
-
-<!-- SHIFT SETUP -->
+<!-- SETUP -->
 
 <div class="card" id="setupCard">
 
 <h2>Today's Rotation</h2>
-
 
 <div class="timer-buttons">
 
@@ -52,9 +50,7 @@ Outdoor Rotation Manager
 Current Rotation: 45 Minutes
 </p>
 
-
 </div>
-
 
 
 
@@ -63,31 +59,23 @@ Current Rotation: 45 Minutes
 
 <h2>Set Shift Team</h2>
 
-
 <div id="positions"></div>
-
 
 </div>
 
 
 
-
-
 <button class="start-button" onclick="startShift()">
-
 START SHIFT
-
 </button>
 
 
 
 
 
-
-<!-- MANAGER DASHBOARD -->
+<!-- DASHBOARD -->
 
 <div id="dashboard" style="display:none;">
-
 
 
 <div class="card">
@@ -102,28 +90,50 @@ START SHIFT
 
 
 
+<h3>
+🔥 Rotation Control
+</h3>
+
+
+<div class="timer-buttons">
+
+<button onclick="changeShiftRotation(45)">
+45 MIN
+</button>
+
+
+<button onclick="changeShiftRotation(30)">
+30 MIN
+</button>
+
+
+<button onclick="changeShiftRotation(20)">
+20 MIN
+</button>
+
+
+</div>
+
+
+<p id="rotationMessage">
+New switches will use this time.
+</p>
+
+
+
 <div id="attentionBanner">
-
 </div>
-
-
-
-</div>
-
-
-
-
-
-<div id="dashboardPositions">
-
-</div>
-
 
 
 </div>
 
 
 
+<div id="dashboardPositions"></div>
+
+
+
+</div>
 
 
 
