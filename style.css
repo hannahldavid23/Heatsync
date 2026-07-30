@@ -199,7 +199,6 @@ POSITION CARDS
 }
 
 
-
 .position-card h2 {
 
   text-align:center;
@@ -209,7 +208,6 @@ POSITION CARDS
   margin-top:0;
 
 }
-
 
 
 .position-card p {
@@ -230,6 +228,23 @@ ACTIVATE BUTTON
   width:100%;
 
   background:#249E6B;
+
+  color:white;
+
+}
+
+
+
+/* =========================
+I'M BACK BUTTON
+========================= */
+
+
+/* Timer is directly above the button */
+
+.position-card h1 + button {
+
+  background:#3EB1C8;
 
   color:white;
 
@@ -286,19 +301,6 @@ MANAGER ACTION BUTTONS
 
 
 /* =========================
-I'M BACK BUTTON
-========================= */
-
-
-.position-card button:last-child {
-
-  background:#3EB1C8;
-
-}
-
-
-
-/* =========================
 STATUS COLORS
 ========================= */
 
@@ -310,13 +312,11 @@ STATUS COLORS
 }
 
 
-
 .yellow {
 
   border-left:12px solid #FFB549;
 
 }
-
 
 
 .red {
@@ -380,14 +380,5 @@ MOBILE
 
 }
 
-
-}
-/* TEAM MEMBER I’M BACK BUTTONS */
-
-.position-card.green button {
-
-  background:#3EB1C8 !important;
-
-  color:white !important;
 
 }
