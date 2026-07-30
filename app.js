@@ -350,9 +350,6 @@ msg.innerText =
 }
 
 
-<button onclick="testAlert()">
-🔊 Test Alert
-</button>
 
 function resumeTimers(){
 
