@@ -516,9 +516,9 @@ container.appendChild(card);
 
 function startNewShift(){
 
-
-let confirmReset =
-confirm("Start a new shift? This will clear the current rotation.");
+let confirmReset = confirm(
+"Start a new shift? This will clear the current rotation."
+);
 
 
 if(!confirmReset){
@@ -538,7 +538,6 @@ rotationTime = 45;
 saveCurrentShift();
 
 
-
 let dashboard =
 document.getElementById("dashboard");
 
@@ -549,19 +548,16 @@ document.getElementById("setup");
 
 if(dashboard){
 
-dashboard.style.display="none";
+dashboard.style.display = "none";
 
 }
 
 
 if(setup){
 
-setup.style.display="block";
+setup.style.display = "block";
 
 }
-
-
-renderDashboard();
 
 
 }
