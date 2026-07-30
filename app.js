@@ -5,6 +5,8 @@ let timersPaused = false;
 let alertedPositions = [];
 let savedShiftKey = "HeatSyncActiveShift";
 
+let audioContext = null;
+
 const positions = [
   "Cash 1",
   "Cash 2",
@@ -567,6 +569,72 @@ JSON.stringify(data)
 );
 
 }
+
+
+
+
+// 🔊 SOUND TEST
+
+function testAlert(){
+
+try{
+
+
+if(!audioContext){
+
+audioContext =
+new (window.AudioContext ||
+window.webkitAudioContext)();
+
+}
+
+
+let oscillator =
+audioContext.createOscillator();
+
+
+let gain =
+audioContext.createGain();
+
+
+oscillator.type="sine";
+
+oscillator.frequency.value=800;
+
+
+gain.gain.value=0.2;
+
+
+oscillator.connect(gain);
+
+gain.connect(audioContext.destination);
+
+
+oscillator.start();
+
+
+setTimeout(()=>{
+
+oscillator.stop();
+
+},500);
+
+
+alert("Sound test completed");
+
+
+}
+
+catch(error){
+
+console.log(error);
+
+alert("Audio not supported");
+
+}
+
+}
+
 
 
 
