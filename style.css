@@ -382,9 +382,9 @@ MOBILE
 
 
 }
-/* TEAM MEMBER I'M BACK BUTTON */
+/* TEAM MEMBER I’M BACK BUTTONS */
 
-.position-card button[onclick="switchConfirm(1)"] {
+.position-card.green button {
 
   background:#3EB1C8 !important;
 
