@@ -338,10 +338,8 @@ function pauseTimers(){
 
 timersPaused=true;
 
-
 let msg =
 document.getElementById("pauseMessage");
-
 
 if(msg){
 
@@ -358,10 +356,8 @@ function resumeTimers(){
 
 timersPaused=false;
 
-
 let msg =
 document.getElementById("pauseMessage");
-
 
 if(msg){
 
@@ -370,7 +366,6 @@ msg.innerText =
 
 }
 
-
 renderDashboard();
 
 }
@@ -378,12 +373,11 @@ renderDashboard();
 
 
 
-function switchConfirm(index){
 
+function switchConfirm(index){
 
 let person =
 shiftData[index];
-
 
 let answer =
 confirm(
@@ -401,17 +395,13 @@ person.inside +
 );
 
 
-
 if(answer){
-
 
 let oldOutside =
 person.outside;
 
-
 person.outside =
 person.inside;
-
 
 person.inside =
 oldOutside;
@@ -422,11 +412,6 @@ Date.now() +
 (rotationTime * 60 * 1000);
 
 
-
-alertedPositions =
-alertedPositions.filter(
-x => x !== person.position
-);
 announcedSwitches =
 announcedSwitches.filter(
 x => x !== person.position
@@ -435,11 +420,10 @@ x => x !== person.position
 
 renderDashboard();
 
+}
 
 }
 
-
-}
 
 
 
@@ -447,7 +431,9 @@ renderDashboard();
 function announceSwitch(person){
 
 if(announcedSwitches.includes(person.position)){
+
 return;
+
 }
 
 
@@ -474,9 +460,12 @@ window.speechSynthesis.speak(speech);
 
 announcedSwitches.push(person.position);
 
+
 playAlertSound();
 
 }
+
+
 
 
 
@@ -522,8 +511,12 @@ oscillator.stop();
 },500);
 
 }
-function updateAttentionBanner(){
 
+
+
+
+
+function updateAttentionBanner(){
 
 let banner =
 document.getElementById("attentionBanner");
@@ -537,14 +530,14 @@ let alerts=[];
 
 shiftData.forEach(person=>{
 
-
 let seconds =
 getSecondsRemaining(person);
 
 
-
 if(seconds <=0){
+
 announceSwitch(person);
+
 
 alerts.push(
 
@@ -562,50 +555,35 @@ formatTime(Math.abs(seconds))
 
 );
 
-
 }
-
 
 });
 
 
-
 if(alerts.length===0){
-
 
 banner.innerHTML =
 "✅ ALL ROTATIONS ON TRACK";
 
-
 banner.style.background="#dcfce7";
-
 
 }
 
 else{
 
-
 banner.innerHTML =
 alerts.join("<br><br>");
 
-
 banner.style.background="#fee2e2";
-
 
 }
 
 
-
 banner.style.padding="25px";
-
 banner.style.borderRadius="18px";
-
 banner.style.fontSize="24px";
-
 banner.style.fontWeight="bold";
-
 banner.style.textAlign="center";
-
 
 }
 
@@ -618,7 +596,6 @@ function formatTime(seconds){
 let minutes =
 Math.floor(seconds/60);
 
-
 let secs =
 seconds % 60;
 
@@ -628,6 +605,7 @@ return minutes +
 secs.toString().padStart(2,"0");
 
 }
+
 
 
 
@@ -655,12 +633,10 @@ JSON.stringify(data)
 
 
 
-// 🔊 SOUND TEST
 
 function testAlert(){
 
 try{
-
 
 if(!audioContext){
 
@@ -716,6 +692,7 @@ alert("Audio not supported");
 }
 
 }
+
 
 
 
