@@ -168,11 +168,13 @@ showDashboard();
 renderDashboard();
 
 
+updateAttentionBanner();
+
+
 startTimerEngine();
 
 
 }
-
 }
 
 
