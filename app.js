@@ -168,8 +168,10 @@ showDashboard();
 renderDashboard();
 
 
-}
+startTimerEngine();
 
+
+}
 
 }
 
