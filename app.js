@@ -4,7 +4,8 @@ let timerIntervals = {};
 let timersPaused = false;
 let alertedPositions = [];
 let savedShiftKey = "HeatSyncActiveShift";
-
+let announcedSwitches = [];
+let audioUnlocked = false;
 const positions = [
   "Cash 1",
   "Cash 2",
