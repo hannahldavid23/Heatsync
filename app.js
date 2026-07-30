@@ -439,6 +439,10 @@ buttonText = `
 
 <p>🟢 ACTIVE</p>
 
+
+<div class="manager-actions">
+
+
 <button onclick="rotatePosition(${index})">
 
 🔄 ROTATE NOW
@@ -451,6 +455,9 @@ buttonText = `
 END POSITION
 
 </button>
+
+
+</div>
 
 `;
 
