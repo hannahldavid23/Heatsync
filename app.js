@@ -561,7 +561,7 @@ setup.style.display = "block";
 
 
 }
-}
+
 
 // =========================
 // ROTATE POSITION
