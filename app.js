@@ -217,7 +217,7 @@ return;
 
 
 container.innerHTML = "";
-updateAttentionBanner();
+
 
 
 shiftData.forEach((person,index)=>{
@@ -835,4 +835,121 @@ renderDashboard();
 
 }
 
+// =========================
+// ATTENTION BANNER
+// =========================
 
+
+function updateAttentionBanner(){
+
+
+let banner =
+document.getElementById("attentionBanner");
+
+
+if(!banner){
+
+return;
+
+}
+
+
+
+let alerts = [];
+
+
+
+shiftData.forEach(person=>{
+
+
+if(person.status !== "active"){
+
+return;
+
+}
+
+
+
+let seconds =
+Math.floor(
+(person.switchTime - Date.now()) / 1000
+);
+
+
+
+if(seconds <= 0){
+
+
+alerts.push(
+
+"🚨 " +
+person.position +
+"<br>" +
+
+person.outside +
+" switch with " +
+person.inside +
+
+"<br>OVERDUE " +
+
+formatTime(Math.abs(seconds))
+
+);
+
+
+}
+
+
+});
+
+
+
+if(alerts.length === 0){
+
+
+banner.innerHTML =
+"✅ ALL ROTATIONS ON TRACK";
+
+
+banner.style.background =
+"#dcfce7";
+
+
+}
+
+else{
+
+
+banner.innerHTML =
+alerts.join("<br><br>");
+
+
+banner.style.background =
+"#fee2e2";
+
+
+}
+
+
+
+banner.style.padding =
+"25px";
+
+
+banner.style.borderRadius =
+"18px";
+
+
+banner.style.fontSize =
+"24px";
+
+
+banner.style.fontWeight =
+"bold";
+
+
+banner.style.textAlign =
+"center";
+
+
+}
