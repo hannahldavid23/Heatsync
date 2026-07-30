@@ -4,8 +4,8 @@ HEATSYNC - CHICK-FIL-A STYLE
 
 
 * {
-  box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  box-sizing:border-box;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
 }
 
 
@@ -20,27 +20,6 @@ body {
   max-width:1100px;
   margin:auto;
   padding:25px;
-}
-
-
-
-/* =========================
-HEADERS
-========================= */
-
-
-h1 {
-  text-align:center;
-  font-size:42px;
-  margin-bottom:5px;
-}
-
-
-.subtitle {
-  text-align:center;
-  font-size:20px;
-  color:#940929;
-  margin-bottom:30px;
 }
 
 
@@ -67,7 +46,29 @@ CARDS
 
 
 /* =========================
-GENERAL BUTTONS
+TEXT
+========================= */
+
+
+h1 {
+
+  text-align:center;
+
+}
+
+
+.subtitle {
+
+  text-align:center;
+
+  color:#940929;
+
+}
+
+
+
+/* =========================
+ALL BUTTON BASE
 ========================= */
 
 
@@ -85,12 +86,7 @@ button {
 
   cursor:pointer;
 
-}
-
-
-button:hover {
-
-  opacity:.85;
+  color:white;
 
 }
 
@@ -107,16 +103,12 @@ START SHIFT
 
   background:#DD0033;
 
-  color:white;
-
-  font-size:28px;
-
 }
 
 
 
 /* =========================
-ROTATION SETTINGS
+ROTATION CONTROL BUTTONS
 ========================= */
 
 
@@ -142,30 +134,7 @@ ROTATION SETTINGS
 
 
 /* =========================
-INPUTS
-========================= */
-
-
-input {
-
-  width:100%;
-
-  padding:14px;
-
-  margin:8px 0;
-
-  border-radius:12px;
-
-  border:1px solid #DAD7D2;
-
-  font-size:18px;
-
-}
-
-
-
-/* =========================
-DASHBOARD
+POSITION CARDS
 ========================= */
 
 
@@ -178,12 +147,6 @@ DASHBOARD
   gap:20px;
 
 }
-
-
-
-/* =========================
-POSITION CARDS
-========================= */
 
 
 .position-card {
@@ -199,15 +162,15 @@ POSITION CARDS
 }
 
 
+
 .position-card h2 {
 
   text-align:center;
 
   font-size:30px;
 
-  margin-top:0;
-
 }
+
 
 
 .position-card p {
@@ -219,41 +182,35 @@ POSITION CARDS
 
 
 /* =========================
-ACTIVATE BUTTON
+ACTIVATE BUTTON ONLY
 ========================= */
 
 
 .position-card button {
 
-  width:100%;
-
   background:#249E6B;
 
-  color:white;
+  width:100%;
 
 }
 
 
 
 /* =========================
-I'M BACK BUTTON
+ACTIVE TIMER "I'M BACK"
 ========================= */
 
 
-/* Timer is directly above the button */
-
-.position-card h1 + button {
+.position-card.green button {
 
   background:#3EB1C8;
-
-  color:white;
 
 }
 
 
 
 /* =========================
-MANAGER ACTION BUTTONS
+MANAGER ACTION AREA
 ========================= */
 
 
@@ -272,15 +229,11 @@ MANAGER ACTION BUTTONS
 
   flex:1;
 
-  width:auto;
-
-  color:white;
-
 }
 
 
 
-/* Rotate Now */
+/* ROTATE NOW */
 
 .manager-actions button:first-child {
 
@@ -290,7 +243,7 @@ MANAGER ACTION BUTTONS
 
 
 
-/* End Position */
+/* END POSITION */
 
 .manager-actions button:last-child {
 
@@ -346,7 +299,20 @@ ATTENTION BANNER
 
   text-align:center;
 
-  margin-top:20px;
+}
+
+
+
+/* =========================
+RESET BUTTON
+========================= */
+
+
+.reset-shift-button {
+
+  background:#940929;
+
+  width:100%;
 
 }
 
@@ -358,7 +324,6 @@ MOBILE
 
 
 @media(max-width:800px){
-
 
 #dashboardPositions {
 
@@ -379,6 +344,5 @@ MOBILE
   flex-direction:column;
 
 }
-
 
 }
