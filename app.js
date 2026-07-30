@@ -759,5 +759,78 @@ person.position
 
 }
 
+// =========================
+// ROTATION CONTROLS
+// =========================
+
+function setRotation(minutes){
+
+rotationTime = minutes;
+
+
+let display =
+document.getElementById("rotationDisplay");
+
+
+if(display){
+
+display.innerText =
+"Current Rotation: " + minutes + " Minutes";
+
+}
+
+
+saveCurrentShift();
+
+}
+
+
+
+function changeShiftRotation(minutes){
+
+
+let oldRotation =
+rotationTime;
+
+
+rotationTime = minutes;
+
+
+
+shiftData.forEach(person=>{
+
+
+if(person.status === "active"){
+
+
+let remaining =
+person.switchTime - Date.now();
+
+
+let newRemaining =
+remaining * (minutes / oldRotation);
+
+
+person.switchTime =
+Date.now() + newRemaining;
+
+
+}
+
+
+});
+
+
+
+updateDashboardHeader(rotationTime);
+
+
+saveCurrentShift();
+
+
+renderDashboard();
+
+
+}
 
 
