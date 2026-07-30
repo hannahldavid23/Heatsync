@@ -1,11 +1,10 @@
-tlet rotationTime = 45;
+let rotationTime = 45;
 let shiftData = [];
 let timerIntervals = {};
 let timersPaused = false;
 let alertedPositions = [];
 let savedShiftKey = "HeatSyncActiveShift";
-let announcedSwitches = [];
-let audioUnlocked = false;
+
 const positions = [
   "Cash 1",
   "Cash 2",
@@ -18,22 +17,19 @@ const positions = [
 ];
 
 
-
 function loadPositions(){
 
-const container =
-document.getElementById("positions");
+const container = document.getElementById("positions");
+
+if(!container) return;
 
 container.innerHTML="";
 
-
 positions.forEach(position=>{
-
 
 let card=document.createElement("div");
 
 card.className="position-card";
-
 
 card.innerHTML=`
 
@@ -47,14 +43,11 @@ placeholder="Inside Partner">
 
 `;
 
-
 container.appendChild(card);
-
 
 });
 
 }
-
 
 
 
@@ -63,12 +56,16 @@ function setRotation(minutes){
 rotationTime = minutes;
 
 
-document.getElementById("rotationDisplay").innerText =
+let display = document.getElementById("rotationDisplay");
+
+if(display){
+
+display.innerText =
 "Current Rotation: " + minutes + " Minutes";
 
 }
 
-
+}
 
 
 
@@ -89,7 +86,6 @@ let inside =
 document.getElementById(`${position}-inside`).value || "None";
 
 
-
 shiftData.push({
 
 position: position,
@@ -107,19 +103,26 @@ Date.now() + (rotationTime * 60 * 1000)
 });
 
 
-
-document.getElementById("setupCard").style.display="none";
-
-document.getElementById("teamSetup").style.display="none";
-
-document.querySelector(".start-button").style.display="none";
+let setup=document.getElementById("setupCard");
+let team=document.getElementById("teamSetup");
+let button=document.querySelector(".start-button");
+let dashboard=document.getElementById("dashboard");
 
 
-document.getElementById("dashboard").style.display="block";
+if(setup) setup.style.display="none";
+if(team) team.style.display="none";
+if(button) button.style.display="none";
+if(dashboard) dashboard.style.display="block";
 
 
-document.getElementById("dashboardRotation").innerText =
+let dashRotation=document.getElementById("dashboardRotation");
+
+if(dashRotation){
+
+dashRotation.innerText =
 "Current Rotation: " + rotationTime + " Minutes";
+
+}
 
 
 renderDashboard();
@@ -130,21 +133,14 @@ renderDashboard();
 
 
 
-
 function getSecondsRemaining(person){
-
 
 let difference =
 person.switchTime - Date.now();
 
-
 return Math.floor(difference / 1000);
 
-
 }
-
-
-
 
 
 
@@ -154,12 +150,13 @@ function renderDashboard(){
 const container =
 document.getElementById("dashboardPositions");
 
+if(!container) return;
+
 
 container.innerHTML="";
 
 
 updateAttentionBanner();
-
 
 
 shiftData.forEach((person,index)=>{
@@ -186,31 +183,25 @@ status="red";
 }
 
 
-
 let card=document.createElement("div");
-
 
 card.className =
 "position-card " + status;
-
 
 
 card.innerHTML=`
 
 <h2>${person.position}</h2>
 
-
 <p>
 Outside:
 <b>${person.outside}</b>
 </p>
 
-
 <p>
 Inside:
 <b>${person.inside}</b>
 </p>
-
 
 <h1>
 
@@ -239,13 +230,10 @@ I'M BACK — START PARTNER TIMER
 
 `;
 
-
-
 container.appendChild(card);
 
 
 });
-
 
 
 }
@@ -253,11 +241,10 @@ container.appendChild(card);
 
 
 
+
 function startTimers(){
 
-
 clearInterval(timerIntervals.main);
-
 
 
 timerIntervals.main =
@@ -280,7 +267,6 @@ renderDashboard();
 
 
 
-
 function changeShiftRotation(minutes){
 
 
@@ -290,7 +276,6 @@ rotationTime;
 
 let difference =
 oldRotation - minutes;
-
 
 
 rotationTime = minutes;
@@ -308,26 +293,38 @@ difference * 60 * 1000;
 
 
 
-document.getElementById("dashboardRotation").innerText =
+let dashboardRotation =
+document.getElementById("dashboardRotation");
+
+
+if(dashboardRotation){
+
+dashboardRotation.innerText =
 "Current Rotation: " + minutes + " Minutes";
 
+}
 
-document.getElementById("rotationMessage").innerText =
 
+
+let message =
+document.getElementById("rotationMessage");
+
+
+if(message){
+
+message.innerText =
 "🔥 Heat increased. Timers adjusted from "
 + oldRotation +
 " to "
 + minutes +
 " minutes.";
 
+}
 
 
 renderDashboard();
 
 }
-
-
-
 
 
 
@@ -337,10 +334,19 @@ function pauseTimers(){
 timersPaused=true;
 
 
-document.getElementById("pauseMessage").innerText =
+let msg =
+document.getElementById("pauseMessage");
+
+
+if(msg){
+
+msg.innerText =
 "⏸ HEATSYNC PAUSED";
 
 }
+
+}
+
 
 
 
@@ -349,16 +355,21 @@ function resumeTimers(){
 timersPaused=false;
 
 
-document.getElementById("pauseMessage").innerText =
+let msg =
+document.getElementById("pauseMessage");
+
+
+if(msg){
+
+msg.innerText =
 "🔥 HEATSYNC ACTIVE";
+
+}
 
 
 renderDashboard();
 
 }
-
-
-
 
 
 
@@ -402,7 +413,6 @@ person.inside =
 oldOutside;
 
 
-
 person.switchTime =
 Date.now() +
 (rotationTime * 60 * 1000);
@@ -428,8 +438,6 @@ renderDashboard();
 
 
 
-
-
 function updateAttentionBanner(){
 
 
@@ -438,7 +446,6 @@ document.getElementById("attentionBanner");
 
 
 if(!banner)return;
-
 
 
 let alerts=[];
@@ -485,6 +492,7 @@ if(alerts.length===0){
 banner.innerHTML =
 "✅ ALL ROTATIONS ON TRACK";
 
+
 banner.style.background="#dcfce7";
 
 
@@ -495,6 +503,7 @@ else{
 
 banner.innerHTML =
 alerts.join("<br><br>");
+
 
 banner.style.background="#fee2e2";
 
@@ -556,94 +565,11 @@ localStorage.setItem(
 savedShiftKey,
 JSON.stringify(data)
 );
-function unlockAudio(){
-
-    if(audioUnlocked){
-        return;
-    }
-
-    let audio = new Audio();
-
-    audio.volume = 0;
-
-    audio.play()
-    .then(()=>{
-        audioUnlocked = true;
-    })
-    .catch(()=>{});
 
 }
 
 
 
-function playAlertSound(){
-
-    let sound = new Audio(
-    "https://actions.google.com/sounds/v1/alarms/beep_short.ogg"
-    );
-
-    sound.volume = 1;
-
-    sound.play()
-    .catch(()=>{});
-
-}
-
-
-
-function speakSwitch(person){
-
-    if(!person){
-        return;
-    }
-
-
-    let message =
-    person.outside +
-    ", it's time to switch with " +
-    person.inside +
-    " at " +
-    person.position;
-
-
-    let speech =
-    new SpeechSynthesisUtterance(message);
-
-
-    speech.rate = 0.9;
-    speech.pitch = 1;
-
-
-    window.speechSynthesis.cancel();
-
-    window.speechSynthesis.speak(speech);
-
-}
-
-
-
-function testAlert(){
-
-    unlockAudio();
-
-    playAlertSound();
-
-
-    let testPerson = {
-
-        outside:"Sally",
-
-        inside:"Joe",
-
-        position:"Cash 1"
-
-    };
-
-
-    speakSwitch(testPerson);
-
-}
-}
 window.onload=function(){
 
 loadPositions();
