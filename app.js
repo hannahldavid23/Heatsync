@@ -3,7 +3,7 @@ let shiftData = [];
 let timerIntervals = {};
 let timersPaused = false;
 let alertedPositions = [];
-
+let savedShiftKey = "HeatSyncActiveShift";
 
 const positions = [
   "Cash 1",
@@ -538,7 +538,25 @@ secs.toString().padStart(2,"0");
 
 
 
+function saveShift(){
 
+let data = {
+
+rotationTime: rotationTime,
+
+shiftData: shiftData,
+
+timersPaused: timersPaused
+
+};
+
+
+localStorage.setItem(
+savedShiftKey,
+JSON.stringify(data)
+);
+
+}
 window.onload=function(){
 
 loadPositions();
