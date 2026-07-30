@@ -1,3 +1,8 @@
+/* =========================
+HEATSYNC - CHICK-FIL-A STYLE
+========================= */
+
+
 * {
   box-sizing: border-box;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
@@ -5,31 +10,56 @@
 
 
 body {
-  margin: 0;
-  background: #EEEDEB;
-  color: #111827;
+
+  margin:0;
+
+  background:#EEEDEB;
+
+  color:#111827;
+
 }
+
 
 
 .app {
-  max-width: 1100px;
-  margin: auto;
-  padding: 25px;
+
+  max-width:1100px;
+
+  margin:auto;
+
+  padding:25px;
+
 }
+
+
+
+/* =========================
+HEADERS
+========================= */
 
 
 h1 {
-  text-align: center;
-  font-size: 42px;
-  margin-bottom: 5px;
+
+  text-align:center;
+
+  font-size:42px;
+
+  margin-bottom:5px;
+
 }
 
 
+
 .subtitle {
-  text-align: center;
-  font-size: 20px;
-  color: #940929;
-  margin-bottom: 30px;
+
+  text-align:center;
+
+  font-size:20px;
+
+  color:#940929;
+
+  margin-bottom:30px;
+
 }
 
 
@@ -56,7 +86,7 @@ CARDS
 
 
 /* =========================
-BUTTONS
+BUTTON SYSTEM
 ========================= */
 
 
@@ -66,20 +96,23 @@ button {
 
   border-radius:14px;
 
-  padding:18px;
+  padding:16px;
 
-  font-size:20px;
+  font-size:18px;
 
   font-weight:700;
 
   cursor:pointer;
 
+  transition:.2s;
+
 }
+
 
 
 button:hover {
 
-  opacity:.85;
+  transform:scale(1.02);
 
 }
 
@@ -100,14 +133,12 @@ START SHIFT
 
   font-size:28px;
 
-  margin-bottom:25px;
-
 }
 
 
 
 /* =========================
-ROTATION BUTTONS
+ROTATION CONTROLS
 ========================= */
 
 
@@ -120,11 +151,14 @@ ROTATION BUTTONS
 }
 
 
+
 .timer-buttons button {
 
   flex:1;
 
   background:#DAD7D2;
+
+  color:#111827;
 
 }
 
@@ -154,7 +188,7 @@ input {
 
 
 /* =========================
-DASHBOARD POSITIONS
+DASHBOARD GRID
 ========================= */
 
 
@@ -168,6 +202,11 @@ DASHBOARD POSITIONS
 
 }
 
+
+
+/* =========================
+POSITION CARDS
+========================= */
 
 
 .position-card {
@@ -186,11 +225,11 @@ DASHBOARD POSITIONS
 
 .position-card h2 {
 
-  margin-top:0;
-
   text-align:center;
 
   font-size:30px;
+
+  margin-top:0;
 
 }
 
@@ -198,23 +237,13 @@ DASHBOARD POSITIONS
 
 .position-card p {
 
-  font-size:22px;
-
-  margin:10px 0;
+  font-size:20px;
 
 }
 
 
 
-.position-card h1 {
-
-  font-size:38px;
-
-  margin:20px 0;
-
-}
-
-
+/* normal buttons */
 
 .position-card button {
 
@@ -239,22 +268,24 @@ MANAGER CONSOLE
 
   gap:12px;
 
-  justify-content:center;
-
   margin-top:15px;
 
 }
+
 
 
 .manager-actions button {
 
   flex:1;
 
+  width:auto;
+
   background:#DD0033;
 
   color:white;
 
 }
+
 
 
 .manager-actions button:last-child {
@@ -327,21 +358,23 @@ MOBILE
 @media(max-width:800px){
 
 
-#dashboardPositions{
+#dashboardPositions {
 
   grid-template-columns:1fr;
 
 }
 
 
-.manager-actions{
+
+.timer-buttons {
 
   flex-direction:column;
 
 }
 
 
-.timer-buttons{
+
+.manager-actions {
 
   flex-direction:column;
 
