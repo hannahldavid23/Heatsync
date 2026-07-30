@@ -130,8 +130,9 @@ dashRotation.innerText =
 
 renderDashboard();
 
-}
+saveShift();
 
+}
 
 
 
@@ -420,6 +421,8 @@ x => x !== person.position
 
 
 renderDashboard();
+
+saveShift();
 
 }
 
