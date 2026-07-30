@@ -260,8 +260,9 @@ if(!timersPaused){
 
 renderDashboard();
 
-}
+saveShift();
 
+}
 
 },1000);
 
@@ -696,10 +697,69 @@ alert("Audio not supported");
 
 
 
+function loadShift(){
 
+let saved =
+localStorage.getItem(savedShiftKey);
+
+
+if(!saved){
+
+return;
+
+}
+
+
+let data =
+JSON.parse(saved);
+
+
+rotationTime =
+data.rotationTime;
+
+
+shiftData =
+data.shiftData;
+
+
+timersPaused =
+data.timersPaused;
+
+
+
+let setup=document.getElementById("setupCard");
+let team=document.getElementById("teamSetup");
+let button=document.querySelector(".start-button");
+let dashboard=document.getElementById("dashboard");
+
+
+if(setup) setup.style.display="none";
+if(team) team.style.display="none";
+if(button) button.style.display="none";
+if(dashboard) dashboard.style.display="block";
+
+
+
+let dashRotation =
+document.getElementById("dashboardRotation");
+
+
+if(dashRotation){
+
+dashRotation.innerText =
+"Current Rotation: " + rotationTime + " Minutes";
+
+}
+
+
+renderDashboard();
+
+}
 window.onload=function(){
 
 loadPositions();
+
+loadShift();
 
 startTimers();
 
