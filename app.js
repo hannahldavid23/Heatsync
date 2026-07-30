@@ -510,7 +510,61 @@ container.appendChild(card);
 
 }
 
+// =========================
+// START NEW SHIFT
+// =========================
 
+function startNewShift(){
+
+
+let confirmReset =
+confirm("Start a new shift? This will clear the current rotation.");
+
+
+if(!confirmReset){
+
+return;
+
+}
+
+
+shiftData = [];
+
+timersPaused = false;
+
+rotationTime = 45;
+
+
+saveCurrentShift();
+
+
+
+let dashboard =
+document.getElementById("dashboard");
+
+
+let setup =
+document.getElementById("setup");
+
+
+if(dashboard){
+
+dashboard.style.display="none";
+
+}
+
+
+if(setup){
+
+setup.style.display="block";
+
+}
+
+
+renderDashboard();
+
+
+}
 
 // =========================
 // ROTATE POSITION
