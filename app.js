@@ -528,8 +528,6 @@ return;
 }
 
 
-// Clear current shift
-
 shiftData = [];
 
 timersPaused = false;
@@ -537,18 +535,29 @@ timersPaused = false;
 rotationTime = 45;
 
 
-// Remove saved shift
-
-localStorage.removeItem("shiftData");
-
-localStorage.removeItem("timersPaused");
-
-localStorage.removeItem("rotationTime");
+saveCurrentShift();
 
 
-// Go back to setup
+let dashboard =
+document.getElementById("dashboard");
 
-location.reload();
+
+let setup =
+document.getElementById("setup");
+
+
+if(dashboard){
+
+dashboard.style.display = "none";
+
+}
+
+
+if(setup){
+
+setup.style.display = "block";
+
+}
 
 
 }
