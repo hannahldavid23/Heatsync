@@ -18,52 +18,55 @@ const positions = [
 
 
 
-function setRotation(minutes) {
-
-  rotationTime = minutes;
-
-  document.getElementById("rotationDisplay").innerText =
-  "Current Rotation: " + minutes + " Minutes";
-
-}
-
-
-
 function loadPositions(){
 
-  const container =
-  document.getElementById("positions");
+const container =
+document.getElementById("positions");
 
-  container.innerHTML = "";
-
-
-  positions.forEach(position=>{
+container.innerHTML="";
 
 
-    let card=document.createElement("div");
-
-    card.className="position-card";
+positions.forEach(position=>{
 
 
-    card.innerHTML=`
+let card=document.createElement("div");
 
-    <h3>${position}</h3>
-
-    <input id="${position}-outside"
-    placeholder="Outside Employee">
-
-    <input id="${position}-inside"
-    placeholder="Inside Partner">
-
-    `;
+card.className="position-card";
 
 
-    container.appendChild(card);
+card.innerHTML=`
+
+<h3>${position}</h3>
+
+<input id="${position}-outside"
+placeholder="Outside Employee">
+
+<input id="${position}-inside"
+placeholder="Inside Partner">
+
+`;
 
 
-  });
+container.appendChild(card);
+
+
+});
 
 }
+
+
+
+
+function setRotation(minutes){
+
+rotationTime = minutes;
+
+
+document.getElementById("rotationDisplay").innerText =
+"Current Rotation: " + minutes + " Minutes";
+
+}
+
 
 
 
@@ -71,50 +74,71 @@ function loadPositions(){
 
 function startShift(){
 
-  shiftData=[];
+shiftData=[];
 
 
-  positions.forEach(position=>{
+positions.forEach(position=>{
 
 
-    let outside =
-    document.getElementById(`${position}-outside`).value || "None";
+let outside =
+document.getElementById(`${position}-outside`).value || "None";
 
 
-    let inside =
-    document.getElementById(`${position}-inside`).value || "None";
-
-
-
-    shiftData.push({
-
-      position: position,
-      outside: outside,
-      inside: inside,
-      secondsRemaining: rotationTime * 60
-
-    });
-
-
-  });
+let inside =
+document.getElementById(`${position}-inside`).value || "None";
 
 
 
-  document.getElementById("setupCard").style.display="none";
+shiftData.push({
 
-  document.getElementById("teamSetup").style.display="none";
+position: position,
 
-  document.querySelector(".start-button").style.display="none";
+outside: outside,
+
+inside: inside,
+
+switchTime:
+Date.now() + (rotationTime * 60 * 1000)
+
+});
 
 
-  document.getElementById("dashboard").style.display="block";
+});
 
 
-  document.getElementById("dashboardRotation").innerText =
-  "Current Rotation: " + rotationTime + " Minutes";
+
+document.getElementById("setupCard").style.display="none";
+
+document.getElementById("teamSetup").style.display="none";
+
+document.querySelector(".start-button").style.display="none";
 
 
-  renderDashboard();
+document.getElementById("dashboard").style.display="block";
+
+
+document.getElementById("dashboardRotation").innerText =
+"Current Rotation: " + rotationTime + " Minutes";
+
+
+renderDashboard();
+
+}
+
+
+
+
+
+
+function getSecondsRemaining(person){
+
+
+let difference =
+person.switchTime - Date.now();
+
+
+return Math.floor(difference / 1000);
+
 
 }
 
@@ -126,105 +150,104 @@ function startShift(){
 
 function renderDashboard(){
 
-  const container =
-  document.getElementById("dashboardPositions");
+const container =
+document.getElementById("dashboardPositions");
 
 
-  container.innerHTML="";
+container.innerHTML="";
 
 
-  updateAttentionBanner();
-
-
-
-  shiftData.forEach((person,index)=>{
-
-
-    let status="green";
-
-
-    if(person.secondsRemaining <=300 &&
-       person.secondsRemaining >0){
-
-      status="yellow";
-
-    }
-
-
-    if(person.secondsRemaining <=0){
-
-      status="red";
-
-    }
+updateAttentionBanner();
 
 
 
-    let card=document.createElement("div");
+shiftData.forEach((person,index)=>{
 
 
-    card.className =
-    "position-card " + status;
+let seconds =
+getSecondsRemaining(person);
 
 
-
-    card.innerHTML=`
-
-    <h2>${person.position}</h2>
+let status="green";
 
 
-    <p>
-    Outside:
-    <b>${person.outside}</b>
-    </p>
+if(seconds <=300 && seconds >0){
+
+status="yellow";
+
+}
 
 
-    <p>
-    Inside:
-    <b>${person.inside}</b>
-    </p>
+if(seconds <=0){
 
-
-    <h1>
-
-    ${
-      person.secondsRemaining <=0
-
-      ?
-
-      "🔴 SWITCH NOW<br>OVERDUE " +
-      formatTime(Math.abs(person.secondsRemaining))
-
-      :
-
-      formatTime(person.secondsRemaining)
-
-    }
-
-    </h1>
-
-
-    <button onclick="switchConfirm(${index})">
-
-    I'M BACK — START PARTNER TIMER
-
-    </button>
-
-
-    `;
-
-
-    container.appendChild(card);
-
-
-  });
-
-
-  startTimers();
+status="red";
 
 }
 
 
 
+let card=document.createElement("div");
+
+
+card.className =
+"position-card " + status;
+
+
+
+card.innerHTML=`
+
+<h2>${person.position}</h2>
+
+
+<p>
+Outside:
+<b>${person.outside}</b>
+</p>
+
+
+<p>
+Inside:
+<b>${person.inside}</b>
+</p>
+
+
+<h1>
+
+${
+seconds <=0
+
+?
+
+"🔴 SWITCH NOW<br>OVERDUE " +
+formatTime(Math.abs(seconds))
+
+:
+
+formatTime(seconds)
+
+}
+
+</h1>
+
+
+<button onclick="switchConfirm(${index})">
+
+I'M BACK — START PARTNER TIMER
+
+</button>
+
+`;
+
+
+
+container.appendChild(card);
+
+
+});
+
+
+
+}
 
 
 
@@ -232,40 +255,25 @@ function renderDashboard(){
 function startTimers(){
 
 
-  Object.values(timerIntervals).forEach(timer=>{
-    clearInterval(timer);
-  });
-
-
-  timerIntervals={};
+clearInterval(timerIntervals.main);
 
 
 
-  shiftData.forEach((person,index)=>{
+timerIntervals.main =
+setInterval(()=>{
 
 
-    timerIntervals[index]=setInterval(()=>{
+if(!timersPaused){
 
-
-      if(timersPaused){
-        return;
-      }
-
-
-      person.secondsRemaining--;
-
-
-      renderDashboard();
-
-
-    },1000);
-
-
-  });
-
+renderDashboard();
 
 }
 
+
+},1000);
+
+
+}
 
 
 
@@ -275,46 +283,45 @@ function startTimers(){
 function changeShiftRotation(minutes){
 
 
-  let oldRotation =
-  rotationTime;
+let oldRotation =
+rotationTime;
 
 
-  let difference =
-  oldRotation - minutes;
-
-
-  rotationTime = minutes;
+let difference =
+oldRotation - minutes;
 
 
 
-  shiftData.forEach(person=>{
-
-
-    person.secondsRemaining =
-    Math.max(
-      0,
-      person.secondsRemaining - (difference * 60)
-    );
-
-
-  });
+rotationTime = minutes;
 
 
 
-  document.getElementById("dashboardRotation").innerText =
-  "Current Rotation: " + minutes + " Minutes";
+shiftData.forEach(person=>{
 
 
-  document.getElementById("rotationMessage").innerText =
-  "🔥 Heat increased. Timers adjusted from "
-  + oldRotation +
-  " to "
-  + minutes +
-  " minutes.";
+person.switchTime -=
+difference * 60 * 1000;
+
+
+});
 
 
 
-  renderDashboard();
+document.getElementById("dashboardRotation").innerText =
+"Current Rotation: " + minutes + " Minutes";
+
+
+document.getElementById("rotationMessage").innerText =
+
+"🔥 Heat increased. Timers adjusted from "
++ oldRotation +
+" to "
++ minutes +
+" minutes.";
+
+
+
+renderDashboard();
 
 }
 
@@ -326,25 +333,26 @@ function changeShiftRotation(minutes){
 
 function pauseTimers(){
 
-  timersPaused=true;
+timersPaused=true;
 
 
-  document.getElementById("pauseMessage").innerText =
-  "⏸ HEATSYNC PAUSED — TIMERS FROZEN";
+document.getElementById("pauseMessage").innerText =
+"⏸ HEATSYNC PAUSED";
 
 }
 
 
 
-
-
 function resumeTimers(){
 
-  timersPaused=false;
+timersPaused=false;
 
 
-  document.getElementById("pauseMessage").innerText =
-  "🔥 HEATSYNC ACTIVE";
+document.getElementById("pauseMessage").innerText =
+"🔥 HEATSYNC ACTIVE";
+
+
+renderDashboard();
 
 }
 
@@ -357,112 +365,60 @@ function resumeTimers(){
 function switchConfirm(index){
 
 
-  let person =
-  shiftData[index];
+let person =
+shiftData[index];
 
 
-  let answer = confirm(
+let answer =
+confirm(
 
-  "CONFIRM SWITCH\n\n" +
+"CONFIRM SWITCH\n\n" +
 
-  person.outside +
+person.outside +
 
-  " is back inside.\n\n" +
+" is back inside.\n\n" +
 
-  person.inside +
+person.inside +
 
-  " is now outside.\n\n" +
+" is now outside."
 
-  "Start " +
-
-  rotationTime +
-
-  " minute timer?"
-
-  );
+);
 
 
 
-  if(answer){
+if(answer){
 
 
-    let oldOutside =
-    person.outside;
+let oldOutside =
+person.outside;
 
 
-    person.outside =
-    person.inside;
+person.outside =
+person.inside;
 
 
-    person.inside =
-    oldOutside;
-
-
-    person.secondsRemaining =
-    rotationTime * 60;
+person.inside =
+oldOutside;
 
 
 
-    alertedPositions =
-    alertedPositions.filter(
-      item => item !== person.position
-    );
+person.switchTime =
+Date.now() +
+(rotationTime * 60 * 1000);
 
 
-    renderDashboard();
+
+alertedPositions =
+alertedPositions.filter(
+x => x !== person.position
+);
 
 
-  }
+
+renderDashboard();
+
 
 }
-
-
-
-
-
-
-
-function announceSwitch(person){
-
-
-  if(alertedPositions.includes(person.position)){
-    return;
-  }
-
-
-  alertedPositions.push(person.position);
-
-
-
-  let message =
-  person.position +
-  ". " +
-  person.outside +
-  " switch with " +
-  person.inside;
-
-
-
-  let speech =
-  new SpeechSynthesisUtterance(message);
-
-
-  speech.rate = 1;
-
-  speech.pitch = 1;
-
-
-  window.speechSynthesis.speak(speech);
-
-
-
-  let beep =
-  new Audio(
-  "https://actions.google.com/sounds/v1/alarms/beep_short.ogg"
-  );
-
-
-  beep.play();
 
 
 }
@@ -480,24 +436,22 @@ let banner =
 document.getElementById("attentionBanner");
 
 
-if(!banner){
-return;
-}
+if(!banner)return;
 
 
 
 let alerts=[];
 
 
-
 shiftData.forEach(person=>{
 
 
-if(person.secondsRemaining <=0){
+let seconds =
+getSecondsRemaining(person);
 
 
-announceSwitch(person);
 
+if(seconds <=0){
 
 
 alerts.push(
@@ -512,7 +466,7 @@ person.inside +
 
 "<br>OVERDUE " +
 
-formatTime(Math.abs(person.secondsRemaining))
+formatTime(Math.abs(seconds))
 
 );
 
@@ -530,10 +484,7 @@ if(alerts.length===0){
 banner.innerHTML =
 "✅ ALL ROTATIONS ON TRACK";
 
-
 banner.style.background="#dcfce7";
-
-banner.style.color="#166534";
 
 
 }
@@ -544,10 +495,7 @@ else{
 banner.innerHTML =
 alerts.join("<br><br>");
 
-
 banner.style.background="#fee2e2";
-
-banner.style.color="#991b1b";
 
 
 }
@@ -566,8 +514,6 @@ banner.style.textAlign="center";
 
 
 }
-
-
 
 
 
@@ -592,4 +538,11 @@ secs.toString().padStart(2,"0");
 
 
 
-window.onload = loadPositions;
+
+window.onload=function(){
+
+loadPositions();
+
+startTimers();
+
+};
