@@ -215,7 +215,7 @@ return;
 
 
 container.innerHTML = "";
-
+updateAttentionBanner();
 
 
 shiftData.forEach((person,index)=>{
