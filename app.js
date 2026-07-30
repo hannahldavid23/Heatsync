@@ -263,15 +263,13 @@ if(!timersPaused){
 
 renderDashboard();
 
-saveShift();
-
 }
+
 
 },1000);
 
 
 }
-
 
 
 
