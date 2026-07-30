@@ -1,4 +1,4 @@
-let rotationTime = 45;
+tlet rotationTime = 45;
 let shiftData = [];
 let timerIntervals = {};
 let timersPaused = false;
@@ -556,7 +556,93 @@ localStorage.setItem(
 savedShiftKey,
 JSON.stringify(data)
 );
+function unlockAudio(){
 
+    if(audioUnlocked){
+        return;
+    }
+
+    let audio = new Audio();
+
+    audio.volume = 0;
+
+    audio.play()
+    .then(()=>{
+        audioUnlocked = true;
+    })
+    .catch(()=>{});
+
+}
+
+
+
+function playAlertSound(){
+
+    let sound = new Audio(
+    "https://actions.google.com/sounds/v1/alarms/beep_short.ogg"
+    );
+
+    sound.volume = 1;
+
+    sound.play()
+    .catch(()=>{});
+
+}
+
+
+
+function speakSwitch(person){
+
+    if(!person){
+        return;
+    }
+
+
+    let message =
+    person.outside +
+    ", it's time to switch with " +
+    person.inside +
+    " at " +
+    person.position;
+
+
+    let speech =
+    new SpeechSynthesisUtterance(message);
+
+
+    speech.rate = 0.9;
+    speech.pitch = 1;
+
+
+    window.speechSynthesis.cancel();
+
+    window.speechSynthesis.speak(speech);
+
+}
+
+
+
+function testAlert(){
+
+    unlockAudio();
+
+    playAlertSound();
+
+
+    let testPerson = {
+
+        outside:"Sally",
+
+        inside:"Joe",
+
+        position:"Cash 1"
+
+    };
+
+
+    speakSwitch(testPerson);
+
+}
 }
 window.onload=function(){
 
