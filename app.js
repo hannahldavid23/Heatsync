@@ -130,6 +130,8 @@ dashRotation.innerText =
 
 renderDashboard();
 
+console.log(shiftData);
+
 saveShift();
 
 }
