@@ -764,8 +764,6 @@ window.onload=function(){
 
 loadPositions();
 
-loadShift();
-
 startTimers();
 
 };
