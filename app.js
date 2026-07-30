@@ -529,6 +529,9 @@ saveCurrentShift();
 renderDashboard();
 
 
+renderManagerConsole();
+
+
 }
 
 
