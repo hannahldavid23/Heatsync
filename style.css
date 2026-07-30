@@ -382,12 +382,12 @@ MOBILE
 
 
 }
-/* I'M BACK BUTTON */
+/* FORCE I'M BACK COLOR */
 
-.position-card button[onclick^="switchConfirm"] {
+button[onclick^="switchConfirm"] {
 
-  background:#3EB1C8;
+  background:#3EB1C8 !important;
 
-  color:white;
+  color:white !important;
 
 }
