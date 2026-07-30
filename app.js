@@ -160,7 +160,7 @@ container.innerHTML="";
 
 
 
-}
+
 updateAttentionBanner();
 
 
