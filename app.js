@@ -719,6 +719,13 @@ let data =
 JSON.parse(saved);
 
 
+if(!data.shiftData || data.shiftData.length === 0){
+
+return;
+
+}
+
+
 rotationTime =
 data.rotationTime;
 
