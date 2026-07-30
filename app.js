@@ -339,6 +339,9 @@ container.appendChild(card);
 renderManagerConsole();
 
 
+updateAttentionBanner();
+
+
 }
 
 
