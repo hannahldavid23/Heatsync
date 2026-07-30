@@ -168,10 +168,16 @@ showDashboard();
 renderDashboard();
 
 
+startTimerEngine();
+
+
+
+setTimeout(()=>{
+
 updateAttentionBanner();
 
+},100);
 
-startTimerEngine();
 
 
 }
