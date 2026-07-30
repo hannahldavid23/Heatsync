@@ -6,6 +6,7 @@ let alertedPositions = [];
 let savedShiftKey = "HeatSyncActiveShift";
 
 let audioContext = null;
+let announcedSwitches = [];
 
 const positions = [
   "Cash 1",
@@ -158,6 +159,8 @@ if(!container) return;
 container.innerHTML="";
 
 
+
+}
 updateAttentionBanner();
 
 
@@ -424,7 +427,10 @@ alertedPositions =
 alertedPositions.filter(
 x => x !== person.position
 );
-
+announcedSwitches =
+announcedSwitches.filter(
+x => x !== person.position
+);
 
 
 renderDashboard();
@@ -438,7 +444,84 @@ renderDashboard();
 
 
 
+function announceSwitch(person){
 
+if(announcedSwitches.includes(person.position)){
+return;
+}
+
+
+let message =
+person.outside +
+", it's time to switch with " +
+person.inside +
+" at " +
+person.position;
+
+
+let speech =
+new SpeechSynthesisUtterance(message);
+
+
+speech.rate = 0.9;
+speech.pitch = 1;
+
+
+window.speechSynthesis.cancel();
+
+window.speechSynthesis.speak(speech);
+
+
+announcedSwitches.push(person.position);
+
+playAlertSound();
+
+}
+
+
+
+function playAlertSound(){
+
+if(!audioContext){
+
+audioContext =
+new (window.AudioContext ||
+window.webkitAudioContext)();
+
+}
+
+
+let oscillator =
+audioContext.createOscillator();
+
+
+let gain =
+audioContext.createGain();
+
+
+oscillator.type="sine";
+
+oscillator.frequency.value=800;
+
+
+gain.gain.value=0.2;
+
+
+oscillator.connect(gain);
+
+gain.connect(audioContext.destination);
+
+
+oscillator.start();
+
+
+setTimeout(()=>{
+
+oscillator.stop();
+
+},500);
+
+}
 function updateAttentionBanner(){
 
 
@@ -461,7 +544,7 @@ getSecondsRemaining(person);
 
 
 if(seconds <=0){
-
+announceSwitch(person);
 
 alerts.push(
 
