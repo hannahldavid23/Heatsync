@@ -505,7 +505,59 @@ container.appendChild(card);
 
 
 
+// =========================
+// ROTATE POSITION
+// =========================
 
+function rotatePosition(index){
+
+
+let person =
+shiftData[index];
+
+
+if(!person){
+
+return;
+
+}
+
+
+
+let oldOutside =
+person.outside;
+
+
+person.outside =
+person.inside;
+
+
+person.inside =
+oldOutside;
+
+
+
+person.switchTime =
+Date.now() +
+(rotationTime * 60 * 1000);
+
+
+
+person.status =
+"active";
+
+
+
+saveCurrentShift();
+
+
+renderDashboard();
+
+
+renderManagerConsole();
+
+
+}
 
 // =========================
 // POSITION ACTIVATION
