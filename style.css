@@ -51,33 +51,47 @@ CARDS
 
 
 .card {
+
   background:white;
+
   border-radius:24px;
+
   padding:25px;
+
   margin-bottom:25px;
+
   box-shadow:0 8px 20px rgba(0,0,0,.08);
+
 }
 
 
 
 /* =========================
-BUTTON SYSTEM
+GENERAL BUTTONS
 ========================= */
 
 
 button {
+
   border:none;
+
   border-radius:14px;
+
   padding:16px;
+
   font-size:18px;
+
   font-weight:700;
+
   cursor:pointer;
-  transition:.2s;
+
 }
 
 
 button:hover {
-  transform:scale(1.02);
+
+  opacity:.85;
+
 }
 
 
@@ -88,29 +102,41 @@ START SHIFT
 
 
 .start-button {
+
   width:100%;
+
   background:#DD0033;
+
   color:white;
+
   font-size:28px;
+
 }
 
 
 
 /* =========================
-ROTATION CONTROLS
+ROTATION SETTINGS
 ========================= */
 
 
 .timer-buttons {
+
   display:flex;
+
   gap:15px;
+
 }
 
 
 .timer-buttons button {
+
   flex:1;
+
   background:#DAD7D2;
+
   color:#111827;
+
 }
 
 
@@ -121,25 +147,36 @@ INPUTS
 
 
 input {
+
   width:100%;
+
   padding:14px;
+
   margin:8px 0;
+
   border-radius:12px;
+
   border:1px solid #DAD7D2;
+
   font-size:18px;
+
 }
 
 
 
 /* =========================
-DASHBOARD GRID
+DASHBOARD
 ========================= */
 
 
 #dashboardPositions {
+
   display:grid;
+
   grid-template-columns:repeat(2,1fr);
+
   gap:20px;
+
 }
 
 
@@ -150,56 +187,77 @@ POSITION CARDS
 
 
 .position-card {
+
   background:white;
+
   border-radius:22px;
+
   padding:25px;
+
   box-shadow:0 6px 15px rgba(0,0,0,.1);
+
 }
+
 
 
 .position-card h2 {
+
   text-align:center;
+
   font-size:30px;
+
   margin-top:0;
+
 }
+
 
 
 .position-card p {
+
   font-size:20px;
-}
 
-
-
-/* default position buttons */
-
-.position-card button {
-  width:100%;
-  background:#DD0033;
-  color:white;
 }
 
 
 
 /* =========================
-MANAGER BUTTONS
+ACTIVATE BUTTON
 ========================= */
 
 
-/* Activate button */
+.position-card button {
 
-.position-card button[onclick^="activatePosition"] {
+  width:100%;
 
   background:#249E6B;
 
+  color:white;
+
 }
 
 
 
-/* Rotate Now button */
+/* =========================
+MANAGER ACTION BUTTONS
+========================= */
 
-.manager-actions button[onclick^="rotatePosition"] {
 
-  background:#3EB1C8;
+.manager-actions {
+
+  display:flex;
+
+  gap:12px;
+
+  margin-top:15px;
+
+}
+
+
+.manager-actions button {
+
+  flex:1;
+
+  width:auto;
 
   color:white;
 
@@ -207,25 +265,34 @@ MANAGER BUTTONS
 
 
 
-/* Im Back button */
+/* Rotate Now */
 
-.manager-actions button[onclick^="imBack"] {
+.manager-actions button:first-child {
 
   background:#3EB1C8;
-
-  color:white;
 
 }
 
 
 
-/* End Position button */
+/* End Position */
 
-.manager-actions button[onclick^="finishPosition"] {
+.manager-actions button:last-child {
 
   background:#940929;
 
-  color:white;
+}
+
+
+
+/* =========================
+I'M BACK BUTTON
+========================= */
+
+
+.position-card button:last-child {
+
+  background:#3EB1C8;
 
 }
 
