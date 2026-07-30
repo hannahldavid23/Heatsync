@@ -439,6 +439,13 @@ buttonText = `
 
 <p>🟢 ACTIVE</p>
 
+<button onclick="rotatePosition(${index})">
+
+🔄 ROTATE NOW
+
+</button>
+
+
 <button onclick="finishPosition(${index})">
 
 END POSITION
@@ -448,7 +455,6 @@ END POSITION
 `;
 
 }
-
 
 
 if(person.status === "finished"){
