@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#111111">
+  <title>HeatSync</title>
+  <link rel="icon" type="image/png" href="heatsync-icon.png">
+  <link rel="apple-touch-icon" href="heatsync-icon.png">
+  <link rel="stylesheet" href="style.css?v=21">
+</head>
+<body>
+
+  <!-- IGNITION SPLASH -->
+  <div id="splashScreen" class="splash-screen" aria-label="HeatSync loading">
+    <div class="splash-embers" aria-hidden="true"></div>
+    <div class="splash-logo-wrap">
+      <img src="heatsync-icon.png" class="splash-logo" alt="HeatSync logo">
+      <div class="spark" aria-hidden="true"></div>
+    </div>
+    <div class="splash-wordmark"><span>HEAT</span>SYNC</div>
+    <p>Outdoor Rotation Manager</p>
+    <div class="loading-row"><span class="loading-dot"></span><span id="splashStatus">Starting HeatSync…</span></div>
+  </div>
+
+  <!-- FIRST-TIME DEVICE SETUP -->
+  <div id="deviceSetupOverlay" class="overlay" style="display:none;">
+    <div class="setup-modal">
+      <img src="heatsync-icon.png" class="modal-logo" alt="HeatSync">
+      <h1>Welcome to HeatSync</h1>
+      <p class="muted">Set up this iPad once. HeatSync will remember it.</p>
+
+      <label for="storeNumberInput">Restaurant store number</label>
+      <input id="storeNumberInput" class="large-input" inputmode="numeric" autocomplete="off" placeholder="Example: 01234" maxlength="10">
+
+      <fieldset class="device-choice">
+        <legend>This device is the…</legend>
+        <label class="mode-card">
+          <input type="radio" name="deviceMode" value="manager" checked>
+          <span><strong>Manager iPad</strong><small>Creates shifts and controls rotations</small></span>
+        </label>
+        <label class="mode-card">
+          <input type="radio" name="deviceMode" value="display">
+          <span><strong>Display iPad</strong><small>Shows the live dashboard only</small></span>
+        </label>
+      </fieldset>
+
+      <p id="setupError" class="form-error" role="alert"></p>
+      <button class="primary-button" onclick="saveDeviceSetup()">SAVE &amp; CONNECT</button>
+    </div>
+  </div>
+
+  <!-- HIDDEN SETTINGS -->
+  <div id="settingsOverlay" class="overlay" style="display:none;">
+    <div class="setup-modal settings-modal">
+      <button class="close-button" onclick="closeSettings()" aria-label="Close settings">×</button>
+      <img src="heatsync-icon.png" class="modal-logo small" alt="HeatSync">
+      <h2>HeatSync Settings</h2>
+      <div class="settings-row"><span>Store</span><strong id="settingsStore">—</strong></div>
+      <div class="settings-row"><span>Device</span><strong id="settingsMode">—</strong></div>
+      <div class="settings-row"><span>Connection</span><strong id="settingsConnection">—</strong></div>
+      <button class="secondary-button" onclick="reconnectHeatSync()">Reconnect</button>
+      <button class="danger-outline-button" onclick="changeDeviceSetup()">Change Store or Device</button>
+      <p class="version-text">HeatSync 2.1 · Ignition</p>
+    </div>
+  </div>
+
+  <div class="app" id="mainApp" style="visibility:hidden;">
+    <header class="app-header">
+      <button id="brandButton" class="brand-button" aria-label="HeatSync home">
+        <img src="heatsync-icon.png" alt="" class="header-logo">
+        <span class="brand-text"><strong><span>Heat</span>Sync</strong><small>Outdoor Rotation Manager</small></span>
+      </button>
+      <div class="status-cluster">
+        <span id="deviceBadge" class="device-badge">SETUP</span>
+        <span id="connectionBadge" class="connection-badge offline"><span class="status-dot"></span><span id="connectionText">Offline</span></span>
+        <span id="storeBadge" class="store-badge">Store —</span>
+      </div>
+    </header>
+
+    <!-- SETUP -->
+    <section id="managerSetupArea">
+      <div class="card" id="setupCard">
+        <div class="section-heading">
+          <div><span class="eyebrow">SHIFT SETUP</span><h2>Today's Rotation</h2></div>
+          <div class="rotation-pill"><span id="rotationNumber">45</span><small>MINUTES</small></div>
+        </div>
+
+        <div class="timer-buttons">
+          <button onclick="setRotation(45)">45 MIN</button>
+          <button onclick="setRotation(30)">30 MIN</button>
+          <button onclick="setRotation(20)">20 MIN</button>
+          <button onclick="testAlert()">🔊 TEST ALERT</button>
+        </div>
+        <p id="rotationDisplay">Current Rotation: 45 Minutes</p>
+      </div>
+
+      <div class="card" id="teamSetup">
+        <div class="section-heading"><div><span class="eyebrow">TEAM</span><h2>Set Shift Team</h2></div></div>
+        <div id="positions" class="setup-grid"></div>
+      </div>
+
+      <button class="start-button" onclick="startShift()">IGNITE SHIFT</button>
+    </section>
+
+    <!-- DISPLAY WAITING STATE -->
+    <div id="displayWaiting" class="card waiting-card" style="display:none;">
+      <img src="heatsync-icon.png" class="waiting-logo" alt="">
+      <h2>Waiting for the manager</h2>
+      <p>Connected to <strong id="waitingStore">this store</strong>. The live dashboard will appear automatically when a shift starts.</p>
+      <div class="waiting-pulse"></div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <main id="dashboard" style="display:none;">
+      <div class="card command-card">
+        <div class="command-topline">
+          <div>
+            <span class="eyebrow">LIVE STORE STATUS</span>
+            <h2>HeatSync Dashboard</h2>
+          </div>
+          <div id="activeCountPill" class="active-count-pill">0 ACTIVE</div>
+        </div>
+
+        <div id="attentionBanner">✅ ALL ROTATIONS ON TRACK</div>
+
+        <div id="managerControls">
+          <div class="control-divider"></div>
+          <div class="section-heading compact">
+            <div><span class="eyebrow">ROTATION CONTROL</span><h3 id="dashboardRotation">Current Rotation: 45 Minutes</h3></div>
+          </div>
+          <div class="timer-buttons">
+            <button onclick="changeShiftRotation(45)">45 MIN</button>
+            <button onclick="changeShiftRotation(30)">30 MIN</button>
+            <button onclick="changeShiftRotation(20)">20 MIN</button>
+          </div>
+          <p id="rotationMessage">New switches will use this time.</p>
+          <div class="timer-buttons two-up">
+            <button onclick="pauseTimers()">⏸ PAUSE ALL</button>
+            <button onclick="resumeTimers()">▶ RESUME</button>
+          </div>
+          <button onclick="startNewShift()" class="reset-shift-button">START NEW SHIFT</button>
+          <p id="pauseMessage" class="system-message">🔥 HEATSYNC ACTIVE</p>
+        </div>
+      </div>
+
+      <section id="managerConsoleCard" class="card">
+        <div class="section-heading"><div><span class="eyebrow">CONTROLS</span><h2>Manager Console</h2></div></div>
+        <div id="managerPositions" class="manager-grid"></div>
+      </section>
+
+      <section>
+        <div class="section-heading dashboard-heading"><div><span class="eyebrow">OUTDOOR TEAM</span><h2>Live Positions</h2></div></div>
+        <div id="dashboardPositions"></div>
+      </section>
+    </main>
+
+    <div id="resumeModal" style="display:none;" class="card">
+      <h2>🔥 Active HeatSync Shift Found</h2>
+      <p id="resumeDetails"></p>
+      <button onclick="resumeShift()">Resume Shift</button>
+      <button onclick="startNewShift()">Start New Shift</button>
+    </div>
+  </div>
+
+  <script src="storage.js?v=21"></script>
+  <script src="audio.js?v=21"></script>
+  <script src="ui.js?v=21"></script>
+  <script type="module" src="firebase.js?v=21"></script>
+  <script src="app.js?v=21"></script>
+</body>
+</html>
