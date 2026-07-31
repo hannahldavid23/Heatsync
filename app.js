@@ -520,45 +520,27 @@ let confirmReset = confirm(
 "Start a new shift? This will clear the current rotation."
 );
 
-
 if(!confirmReset){
-
-return;
-
+    return;
 }
-
 
 shiftData = [];
-
 timersPaused = false;
-
 rotationTime = 45;
 
+clearShiftData();
 
-saveCurrentShift();
+document.getElementById("dashboard").style.display = "none";
 
+document.getElementById("setupCard").style.display = "block";
 
-let dashboard =
-document.getElementById("dashboard");
+document.getElementById("teamSetup").style.display = "block";
 
+clearDashboard();
 
-let setup =
-document.getElementById("setup");
-
-
-if(dashboard){
-
-dashboard.style.display = "none";
+loadPositionsUI(positions);
 
 }
-
-
-if(setup){
-
-setup.style.display = "block";
-
-}
-
 
 }
 
