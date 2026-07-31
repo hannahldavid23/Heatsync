@@ -535,12 +535,12 @@ document.getElementById("dashboard").style.display = "none";
 document.getElementById("setupCard").style.display = "block";
 
 document.getElementById("teamSetup").style.display = "block";
-
+document.querySelector(".start-button").style.display = "block";
 clearDashboard();
 
 loadPositionsUI(positions);
 
-}
+
 
 }
 
