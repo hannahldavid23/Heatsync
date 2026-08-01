@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
-import { getDatabase, ref, onValue, set, remove, serverTimestamp, off } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-database.js";
+import { getDatabase, ref, onValue, set, remove, serverTimestamp, off, push } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBjVOVTPQp-WlT1BkUC44RFGj1fQk4lziQ",
@@ -17,6 +17,8 @@ const auth = getAuth(app);
 const db = getDatabase(app);
 let activeStoreRef = null;
 let activeStoreCallback = null;
+let activeSettingsRef = null;
+let activeSettingsCallback = null;
 let connectedRef = null;
 let connectedCallback = null;
 
@@ -37,15 +39,29 @@ function announceReady() {
       });
     },
 
-    async saveStoreShift(storeNumber, payload) {
-      await set(ref(db, `stores/${storeNumber}/liveShift`), {
-        ...payload,
-        updatedAt: serverTimestamp()
+    listenToStoreSettings(storeNumber, callback) {
+      if (activeSettingsRef && activeSettingsCallback) off(activeSettingsRef, "value", activeSettingsCallback);
+      activeSettingsRef = ref(db, `stores/${storeNumber}/settings`);
+      activeSettingsCallback = snapshot => callback(snapshot.val());
+      onValue(activeSettingsRef, activeSettingsCallback, error => {
+        window.dispatchEvent(new CustomEvent("heatsync-cloud-error", { detail: error.message }));
       });
+    },
+
+    async saveStoreShift(storeNumber, payload) {
+      await set(ref(db, `stores/${storeNumber}/liveShift`), { ...payload, updatedAt: serverTimestamp() });
     },
 
     async clearStoreShift(storeNumber) {
       await remove(ref(db, `stores/${storeNumber}/liveShift`));
+    },
+
+    async saveStoreSettings(storeNumber, settings) {
+      await set(ref(db, `stores/${storeNumber}/settings`), { ...settings, updatedAt: serverTimestamp() });
+    },
+
+    async saveShiftSummary(storeNumber, summary) {
+      await set(push(ref(db, `stores/${storeNumber}/shiftHistory`)), { ...summary, savedAt: serverTimestamp() });
     },
 
     watchConnection(callback) {
@@ -55,13 +71,10 @@ function announceReady() {
       onValue(connectedRef, connectedCallback);
     }
   };
-
   window.dispatchEvent(new Event("heatsync-firebase-ready"));
 }
 
 onAuthStateChanged(auth, () => announceReady(), error => {
   window.dispatchEvent(new CustomEvent("heatsync-cloud-error", { detail: error.message }));
 });
-
-// Expose immediately as well; signIn() handles auth state.
 announceReady();

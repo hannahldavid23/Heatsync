@@ -7,7 +7,7 @@
   <title>HeatSync</title>
   <link rel="icon" type="image/png" href="heatsync-icon.png">
   <link rel="apple-touch-icon" href="heatsync-icon.png">
-  <link rel="stylesheet" href="style.css?v=21">
+  <link rel="stylesheet" href="style.css?v=30">
 </head>
 <body>
 
@@ -59,9 +59,61 @@
       <div class="settings-row"><span>Store</span><strong id="settingsStore">—</strong></div>
       <div class="settings-row"><span>Device</span><strong id="settingsMode">—</strong></div>
       <div class="settings-row"><span>Connection</span><strong id="settingsConnection">—</strong></div>
+
+      <div id="managerSettingsOnly">
+        <div class="settings-section">
+          <span class="eyebrow">STORE PROFILE</span>
+          <label for="storeNameSetting">Store name</label>
+          <input id="storeNameSetting" class="large-input" placeholder="Example: Madison Street">
+          <label for="weatherLocationSearch">Weather city or ZIP code</label>
+          <div class="inline-input-button">
+            <input id="weatherLocationSearch" class="large-input" placeholder="Clarksville, TN or 37043">
+            <button class="secondary-button compact-button" onclick="searchAndSaveStoreLocation()">SEARCH</button>
+          </div>
+          <button class="secondary-button" onclick="useCurrentStoreLocation()">📍 USE THIS IPAD'S LOCATION</button>
+          <p id="savedLocationText" class="settings-help">No store weather location saved.</p>
+          <button class="primary-button" onclick="saveStoreProfile()">SAVE STORE PROFILE</button>
+        </div>
+
+        <div class="settings-section">
+          <span class="eyebrow">STORE HEAT POLICY</span>
+          <p class="settings-help">These are your store's rotation recommendations, not OSHA-required rotation times.</p>
+          <div id="heatPolicyRows"></div>
+          <button class="secondary-button" onclick="addHeatPolicyRow()">＋ ADD POLICY LEVEL</button>
+          <button class="primary-button" onclick="saveHeatPolicy()">SAVE HEAT POLICY</button>
+        </div>
+
+        <div class="settings-section">
+          <span class="eyebrow">OSHA APP MANUAL VALUE</span>
+          <p class="settings-help">Use the exact heat index shown in the OSHA-NIOSH app, or leave blank for automatic calculation.</p>
+          <div class="inline-input-button">
+            <input id="manualHeatIndexInput" class="large-input" type="number" inputmode="numeric" placeholder="Heat index °F">
+            <button class="secondary-button compact-button" onclick="saveManualHeatIndex()">USE</button>
+          </div>
+          <button class="danger-outline-button" onclick="clearManualHeatIndex()">RETURN TO AUTOMATIC</button>
+        </div>
+      </div>
+
       <button class="secondary-button" onclick="reconnectHeatSync()">Reconnect</button>
       <button class="danger-outline-button" onclick="changeDeviceSetup()">Change Store or Device</button>
-      <p class="version-text">HeatSync 2.1 · Ignition</p>
+      <p class="version-text">HeatSync 3.0 · Command Center</p>
+    </div>
+  </div>
+
+
+  <div id="shiftSummaryOverlay" class="overlay" style="display:none;">
+    <div class="setup-modal summary-modal">
+      <button class="close-button" onclick="closeShiftSummary()" aria-label="Close summary">×</button>
+      <img src="heatsync-icon.png" class="modal-logo small" alt="HeatSync">
+      <span class="eyebrow">SHIFT COMPLETE</span>
+      <h2>Today's HeatSync Summary</h2>
+      <div class="summary-grid">
+        <div><small>ROTATIONS</small><strong id="summaryRotations">0</strong></div>
+        <div><small>AVERAGE OUTSIDE</small><strong id="summaryAverage">0m</strong></div>
+        <div><small>LONGEST</small><strong id="summaryLongest">0m</strong></div>
+        <div><small>LATE ROTATIONS</small><strong id="summaryLate">0</strong></div>
+      </div>
+      <button class="primary-button" onclick="closeShiftSummary()">DONE</button>
     </div>
   </div>
 
@@ -122,6 +174,40 @@
           <div id="activeCountPill" class="active-count-pill">0 ACTIVE</div>
         </div>
 
+        <section id="weatherCommandCard" class="weather-command-card">
+          <div class="weather-main">
+            <div class="weather-icon" id="weatherIcon">🌡️</div>
+            <div>
+              <span class="eyebrow">OSHA-NIOSH METHOD</span>
+              <h3 id="weatherLocationLabel">Store location needed</h3>
+              <p id="weatherSourceLabel">Automatic heat index from temperature and humidity</p>
+            </div>
+            <div class="heat-index-block">
+              <small>HEAT INDEX</small>
+              <strong id="heatIndexValue">—°</strong>
+              <span id="heatRiskBadge" class="heat-risk-badge risk-neutral">Unavailable</span>
+            </div>
+          </div>
+          <div class="weather-metrics">
+            <div><small>TEMP</small><strong id="temperatureValue">—°</strong></div>
+            <div><small>HUMIDITY</small><strong id="humidityValue">—%</strong></div>
+            <div><small>UV INDEX</small><strong id="uvValue">—</strong></div>
+            <div><small>UPDATED</small><strong id="weatherUpdatedValue">—</strong></div>
+          </div>
+          <div class="policy-recommendation">
+            <div><small>STORE POLICY RECOMMENDS</small><strong><span id="recommendedRotationValue">—</span> MINUTES</strong></div>
+            <button id="applyRecommendationButton" onclick="applyWeatherRecommendation()">APPLY TO SHIFT</button>
+          </div>
+          <p class="weather-disclaimer">Heat index is a screening tool. Consider direct sun, workload, acclimatization, hydration, and your restaurant's safety policy.</p>
+        </section>
+
+        <div class="command-stats">
+          <div><small>OUTSIDE</small><strong id="outsideStat">0</strong></div>
+          <div><small>DUE SOON</small><strong id="dueSoonStat">0</strong></div>
+          <div><small>OVERDUE</small><strong id="overdueStat">0</strong></div>
+          <div><small>ROTATION</small><strong><span id="rotationStat">45</span>m</strong></div>
+        </div>
+
         <div id="attentionBanner">✅ ALL ROTATIONS ON TRACK</div>
 
         <div id="managerControls">
@@ -163,10 +249,11 @@
     </div>
   </div>
 
-  <script src="storage.js?v=21"></script>
-  <script src="audio.js?v=21"></script>
-  <script src="ui.js?v=21"></script>
-  <script type="module" src="firebase.js?v=21"></script>
-  <script src="app.js?v=21"></script>
+  <script src="storage.js?v=30"></script>
+  <script src="audio.js?v=30"></script>
+  <script src="ui.js?v=30"></script>
+  <script src="weather.js?v=30"></script>
+  <script type="module" src="firebase.js?v=30"></script>
+  <script src="app.js?v=30"></script>
 </body>
 </html>
