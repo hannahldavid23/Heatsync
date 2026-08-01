@@ -242,3 +242,145 @@ button:active { transform:scale(.98); }
     letter-spacing: 0.05em;
     line-height: 1.6;
 }
+/* ===================================
+   About HeatSync™
+=================================== */
+
+.about-modal {
+    width: min(100%, 560px);
+    padding: 38px 32px 32px;
+    text-align: center;
+}
+
+.about-logo {
+    display: block;
+    width: 105px;
+    height: 105px;
+    object-fit: cover;
+    border-radius: 28px;
+    margin: 0 auto 18px;
+    box-shadow: 0 14px 34px rgba(148, 9, 41, 0.22);
+}
+
+.about-title {
+    margin: 0;
+    font-size: 34px;
+    font-weight: 950;
+    letter-spacing: -0.04em;
+}
+
+.about-category {
+    margin: 6px 0 0;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 850;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+}
+
+.about-tagline {
+    margin: 18px 0 24px;
+    color: var(--deep-red);
+    font-size: 17px;
+    font-weight: 850;
+}
+
+.about-version-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 28px;
+    border-radius: 20px;
+    color: white;
+    background: linear-gradient(135deg, var(--deep-red), var(--orange));
+    box-shadow: 0 12px 28px rgba(217, 4, 41, 0.2);
+}
+
+.about-version-card span {
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.17em;
+    opacity: 0.8;
+}
+
+.about-version-card strong {
+    margin: 5px 0 2px;
+    font-size: 31px;
+    line-height: 1;
+}
+
+.about-version-card small {
+    font-size: 13px;
+    font-weight: 750;
+}
+
+.about-section {
+    padding: 24px 0;
+    border-top: 1px solid #ece9e5;
+}
+
+.about-label {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+}
+
+.about-section h3 {
+    margin: 0;
+    font-size: 21px;
+}
+
+.about-features {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+    margin-top: 15px;
+}
+
+.about-features div {
+    padding: 11px 8px;
+    border-radius: 12px;
+    background: #f5f4f2;
+    color: #36393f;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.about-legal p {
+    margin: 9px auto;
+    max-width: 450px;
+    color: #60636a;
+    font-size: 12px;
+    line-height: 1.65;
+}
+
+.about-powered {
+    margin: 20px 0 0;
+    color: #9ca3af;
+    font-size: 11px;
+    font-weight: 750;
+    letter-spacing: 0.06em;
+}
+
+@media (max-width: 600px) {
+    .about-modal {
+        padding: 32px 20px 26px;
+    }
+
+    .about-logo {
+        width: 88px;
+        height: 88px;
+    }
+
+    .about-title {
+        font-size: 29px;
+    }
+
+    .about-features {
+        grid-template-columns: 1fr;
+    }
+}
