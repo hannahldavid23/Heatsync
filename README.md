@@ -1,16 +1,13 @@
-# HeatSync v3.0 — Command Center
+# HeatSync 3.0.0 — Command Center (Sprint 1)
 
-Outdoor rotation management with live Firebase sync, OSHA-NIOSH-method heat index, store-specific heat policies, manager/display modes, and shift summaries.
+This development build adds:
 
-## New in v3.0
-- Store weather location via device GPS or city/ZIP search
-- Automatic heat index calculated from temperature and humidity using the NWS method
-- Optional manual heat index entry from the OSHA-NIOSH Heat Safety Tool
-- Store-specific heat-index thresholds and rotation recommendations
-- One-tap application of the recommended rotation
-- Command-center status metrics
-- Larger team-facing “I'M BACK” buttons
-- Shift summaries saved to Firebase
+- Shared store profile and weather location
+- Automatic temperature, humidity, UV maximum, and NWS heat-index calculation
+- Optional manual heat-index entry from the OSHA-NIOSH Heat Safety Tool
+- Store-specific customizable heat-policy thresholds
+- One-tap manager recommendation
+- Command Center summary cards
+- Larger Team Mode “I'M BACK” action
 
-## Important
-Heat index is a screening tool and does not replace a full workplace heat-hazard assessment or store safety policy.
+Upload this build to the `v3-command-center` branch for testing. Do not merge into `main` until manager and display devices have both been tested.
