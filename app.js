@@ -498,3 +498,28 @@ function changeDeviceSetup() {
   closeSettings();
   document.getElementById("deviceSetupOverlay").style.display = "flex";
 }
+function showAboutModal() {
+    const settingsOverlay = document.getElementById("settingsOverlay");
+    const aboutOverlay = document.getElementById("aboutOverlay");
+
+    if (settingsOverlay) {
+        settingsOverlay.style.display = "none";
+    }
+
+    if (aboutOverlay) {
+        aboutOverlay.style.display = "flex";
+    }
+}
+
+function closeAboutModal() {
+    const settingsOverlay = document.getElementById("settingsOverlay");
+    const aboutOverlay = document.getElementById("aboutOverlay");
+
+    if (aboutOverlay) {
+        aboutOverlay.style.display = "none";
+    }
+
+    if (settingsOverlay) {
+        settingsOverlay.style.display = "flex";
+    }
+}
