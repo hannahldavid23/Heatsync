@@ -258,3 +258,33 @@ HEATSYNC 3.0 COMMAND CENTER
   .summary-grid { grid-template-columns:repeat(2,1fr); }
   .settings-button-row { grid-template-columns:1fr; }
 }
+/* ===================================
+   HeatSync Footer
+=================================== */
+
+.heatsync-footer {
+    margin-top: 50px;
+    padding: 30px 20px;
+    border-top: 1px solid rgba(0,0,0,.08);
+    text-align: center;
+    opacity: .8;
+}
+
+.footer-logo {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--red);
+    margin-bottom: 6px;
+}
+
+.footer-tagline {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 8px;
+    letter-spacing: .04em;
+}
+
+.footer-version {
+    font-size: 12px;
+    color: #8a8a8a;
+}
