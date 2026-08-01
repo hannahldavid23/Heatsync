@@ -84,14 +84,97 @@
         <button class="secondary-button" onclick="saveManualHeatIndex()">Save Manual Reading</button>
       </div>
 
-      <button class="secondary-button" onclick="reconnectHeatSync()">Reconnect</button>
-      <button class="danger-outline-button" onclick="changeDeviceSetup()">Change Store or Device</button>
-      <p class="version-text">
-HeatSync™ v3.0.0 • Outdoor Team Management
+     <button class="secondary-button" onclick="showAboutModal()">
+    About HeatSync™
+</button>
+
+<button class="secondary-button" onclick="reconnectHeatSync()">
+    Reconnect
+</button>
+
+<button class="danger-outline-button" onclick="changeDeviceSetup()">
+    Change Store or Device
+</button>
+
+<p class="version-text">
+    HeatSync™ v3.0.0 • Outdoor Team Management
 </p>
     </div>
   </div>
+<!-- ABOUT HEATSYNC -->
+<div id="aboutOverlay" class="overlay" style="display:none;">
+  <div class="setup-modal about-modal">
 
+    <button
+      class="close-button"
+      onclick="closeAboutModal()"
+      aria-label="Close About HeatSync">
+      ×
+    </button>
+
+    <img
+      src="heatsync-icon.png"
+      class="about-logo"
+      alt="HeatSync logo">
+
+    <h1 class="about-title">HeatSync™</h1>
+
+    <p class="about-category">
+      Outdoor Team Management
+    </p>
+
+    <p class="about-tagline">
+      Safer Teams. Smarter Rotations.
+    </p>
+
+    <div class="about-version-card">
+    <span>VERSION</span>
+    <strong>3.0.0</strong>
+    <small>Command Center</small>
+
+    <div class="about-build">
+        Official Production Release
+    </div>
+</div>
+    <section class="about-section">
+      <span class="about-label">DESIGNED &amp; DEVELOPED BY</span>
+      <h3>Hannah Davidson</h3>
+    </section>
+
+    <section class="about-section">
+      <span class="about-label">ABOUT THIS RELEASE</span>
+
+      <div class="about-features">
+        <div>Outdoor Conditions</div>
+        <div>Weather Intelligence</div>
+        <div>Store Heat Policies</div>
+        <div>Apply Recommendation</div>
+        <div>Multi-Device Sync</div>
+        <div>Team Display</div>
+      </div>
+    </section>
+
+    <section class="about-section about-legal">
+      <span class="about-label">COPYRIGHT</span>
+
+      <p>
+        © 2026 Hannah Davidson.<br>
+        All Rights Reserved.
+      </p>
+
+      <p>
+        HeatSync™ is proprietary software. Unauthorized copying,
+        modification, distribution, reverse engineering, or commercial
+        use without written permission is prohibited.
+      </p>
+    </section>
+
+    <p class="about-powered">
+      Powered by Google Firebase
+    </p>
+
+  </div>
+</div>
   <div class="app" id="mainApp" style="visibility:hidden;">
     <header class="app-header">
       <button id="brandButton" class="brand-button" aria-label="HeatSync home">
