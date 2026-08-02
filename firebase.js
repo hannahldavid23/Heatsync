@@ -19,6 +19,8 @@ let activeStoreRef = null;
 let activeStoreCallback = null;
 let connectedRef = null;
 let connectedCallback = null;
+let activeSettingsRef = null;
+let activeSettingsCallback = null;
 
 function announceReady() {
   window.HeatSyncFirebase = {
@@ -46,6 +48,27 @@ function announceReady() {
 
     async clearStoreShift(storeNumber) {
       await remove(ref(db, `stores/${storeNumber}/liveShift`));
+    },
+
+    listenToStoreSettings(storeNumber, callback) {
+      if (activeSettingsRef && activeSettingsCallback) off(activeSettingsRef, "value", activeSettingsCallback);
+      activeSettingsRef = ref(db, `stores/${storeNumber}/settings`);
+      activeSettingsCallback = snapshot => callback(snapshot.val());
+      onValue(activeSettingsRef, activeSettingsCallback, error => {
+        window.dispatchEvent(new CustomEvent("heatsync-cloud-error", { detail: error.message }));
+      });
+    },
+
+    async saveStoreSettings(storeNumber, patch) {
+      const settingsRef = ref(db, `stores/${storeNumber}/settings`);
+      const current = await new Promise((resolve, reject) => {
+        onValue(settingsRef, snapshot => resolve(snapshot.val() || {}), reject, { onlyOnce: true });
+      });
+      await set(settingsRef, {
+        ...current,
+        ...patch,
+        updatedAt: serverTimestamp()
+      });
     },
 
     watchConnection(callback) {
