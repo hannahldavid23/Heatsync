@@ -246,6 +246,7 @@ function renderWeatherUnavailable(message) {
   document.getElementById("weatherSource").textContent = message;
   recommendedRotation = null;
   renderPolicyRecommendation();
+  renderHeatOutlookUnavailable(message);
 }
 
 function renderWeatherCard() {
@@ -263,6 +264,7 @@ function renderWeatherCard() {
     : `Source: automatic temperature and humidity · ${storeProfile.locationName || "store location"}`;
   recommendedRotation = getRecommendedRotation(currentConditions.heatIndex, storeProfile.heatPolicy);
   renderPolicyRecommendation();
+  buildHeatOutlook();
 }
 
 function getRecommendedRotation(heatIndex, policy) {
