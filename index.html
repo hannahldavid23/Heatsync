@@ -7,7 +7,7 @@
   <title>HeatSync™ | Outdoor Team Management</title>
   <link rel="icon" type="image/png" href="heatsync-icon.png">
   <link rel="apple-touch-icon" href="heatsync-icon.png">
-  <link rel="stylesheet" href="style.css?v=310">
+  <link rel="stylesheet" href="style.css?v=321">
 </head>
 <body>
 
@@ -97,7 +97,7 @@
 </button>
 
 <p class="version-text">
-    HeatSync™ v3.1.0 • Outdoor Team Management
+    HeatSync™ v3.2.1 • Outdoor Team Management
 </p>
     </div>
   </div>
@@ -129,11 +129,11 @@
 
     <div class="about-version-card">
     <span>VERSION</span>
-    <strong>3.1.0</strong>
-    <small>Command Center</small>
+    <strong>3.2.1</strong>
+    <small>Team Display</small>
 
     <div class="about-build">
-        Official Production Release
+        Dashboard Layout Fix
     </div>
 </div>
     <section class="about-section">
@@ -242,15 +242,27 @@
           <button id="refreshWeatherButton" class="weather-refresh" onclick="refreshStoreWeather()">Refresh Conditions</button>
         </div>
 
-        <div class="card policy-card">
-          <div class="card-kicker">🏪 STORE POLICY</div>
-          <div class="policy-comparison">
-            <div><small>CURRENT</small><strong><span id="policyCurrentRotation">45</span> min</strong></div>
-            <div class="policy-arrow">→</div>
-            <div><small>RECOMMENDED</small><strong><span id="policyRecommendedRotation">—</span> min</strong></div>
+        <div class="command-center-side-stack">
+          <div class="card policy-card">
+            <div class="card-kicker">🏪 STORE POLICY</div>
+            <div class="policy-comparison">
+              <div><small>CURRENT</small><strong><span id="policyCurrentRotation">45</span> min</strong></div>
+              <div class="policy-arrow">→</div>
+              <div><small>RECOMMENDED</small><strong><span id="policyRecommendedRotation">—</span> min</strong></div>
+            </div>
+            <p id="policyExplanation">Add a heat policy in Settings.</p>
+            <button id="applyPolicyButton" class="apply-policy-button" onclick="applyWeatherRecommendation()" disabled>Apply Recommendation</button>
           </div>
-          <p id="policyExplanation">Add a heat policy in Settings.</p>
-          <button id="applyPolicyButton" class="apply-policy-button" onclick="applyWeatherRecommendation()" disabled>Apply Recommendation</button>
+
+          <div class="card shift-summary-card">
+            <div class="card-kicker">👥 SHIFT SUMMARY</div>
+            <div class="summary-grid">
+              <div><strong id="summaryOutside">0</strong><small>Outside</small></div>
+              <div><strong id="summaryDueSoon">0</strong><small>Due Soon</small></div>
+              <div><strong id="summaryOverdue">0</strong><small>Overdue</small></div>
+              <div><strong id="summaryRotation">45</strong><small>Minutes</small></div>
+            </div>
+          </div>
         </div>
 
         <div class="card heat-outlook-card">
@@ -277,16 +289,6 @@
           <button id="outlookDetailsButton" class="outlook-details-button" onclick="toggleForecastDetails()">View Hourly Forecast</button>
           <div id="forecastDetails" class="forecast-details" style="display:none;"></div>
           <p class="outlook-disclaimer">Forecast guidance only. Confirm current conditions before changing operations.</p>
-        </div>
-
-        <div class="card shift-summary-card">
-          <div class="card-kicker">👥 SHIFT SUMMARY</div>
-          <div class="summary-grid">
-            <div><strong id="summaryOutside">0</strong><small>Outside</small></div>
-            <div><strong id="summaryDueSoon">0</strong><small>Due Soon</small></div>
-            <div><strong id="summaryOverdue">0</strong><small>Overdue</small></div>
-            <div><strong id="summaryRotation">45</strong><small>Minutes</small></div>
-          </div>
         </div>
       </section>
 
@@ -343,7 +345,7 @@
     <div class="footer-logo">HeatSync™</div>
     <div class="footer-tagline">Outdoor Team Management</div>
    <div class="footer-version">
-    Version 3.1.0 – Heat Outlook<br>
+    Version 3.2.1 – Dashboard Layout Fix<br>
     © 2026 Hannah Davidson
 </div>
 </footer>
@@ -351,12 +353,12 @@
 </div>
 
 
-  <script src="storage.js?v=310"></script>
-  <script src="audio.js?v=310"></script>
-  <script src="ui.js?v=310"></script>
-  <script type="module" src="firebase.js?v=310"></script>
-  <script src="weather.js?v=310"></script>
-  <script src="app.js?v=310"></script>
-  <script src="command-center.js?v=310"></script>
+  <script src="storage.js?v=321"></script>
+  <script src="audio.js?v=321"></script>
+  <script src="ui.js?v=321"></script>
+  <script type="module" src="firebase.js?v=321"></script>
+  <script src="weather.js?v=321"></script>
+  <script src="app.js?v=321"></script>
+  <script src="command-center.js?v=321"></script>
 </body>
 </html>

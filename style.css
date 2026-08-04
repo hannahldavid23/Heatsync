@@ -528,3 +528,144 @@ HEATSYNC 3.0 COMMAND CENTER
   .outlook-trend { align-self:flex-start; }
   .forecast-hour-row { grid-template-columns:1fr .75fr .75fr 1fr; font-size:11px; }
 }
+
+
+/* ===================================
+   HeatSync 3.2.1 — Dashboard Layout Fix
+=================================== */
+
+/* Manager Command Center: large weather card, compact stacked cards, full-width outlook. */
+.command-center-overview {
+  grid-template-columns:minmax(0, 1.45fr) minmax(330px, .95fr);
+  grid-template-rows:auto auto;
+  align-items:stretch;
+}
+
+.weather-card {
+  grid-column:1;
+  grid-row:1;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+}
+
+.weather-card .weather-refresh {
+  margin-top:auto;
+}
+
+.command-center-side-stack {
+  grid-column:2;
+  grid-row:1;
+  display:grid;
+  grid-template-rows:minmax(0, 1fr) minmax(0, 1fr);
+  gap:18px;
+  min-width:0;
+}
+
+.command-center-side-stack .card {
+  margin:0;
+  min-height:0;
+}
+
+.policy-card,
+.shift-summary-card {
+  display:flex;
+  flex-direction:column;
+  padding:22px;
+}
+
+.policy-card .policy-comparison {
+  margin:14px 0 8px;
+}
+
+.policy-card #policyExplanation {
+  margin:7px 0 12px;
+  font-size:13px;
+  line-height:1.4;
+}
+
+.policy-card .apply-policy-button {
+  margin-top:auto;
+}
+
+.shift-summary-card .summary-grid {
+  margin-top:14px;
+  height:100%;
+  align-items:stretch;
+}
+
+.shift-summary-card .summary-grid div {
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  min-height:78px;
+}
+
+.heat-outlook-card {
+  grid-column:1 / -1;
+  grid-row:2;
+  padding:22px 25px 18px;
+}
+
+.heat-outlook-card .heat-outlook-heading {
+  margin-bottom:11px;
+}
+
+.heat-outlook-card .heat-outlook-heading h3 {
+  margin-top:5px;
+  font-size:22px;
+}
+
+.heat-outlook-card .outlook-prepare-banner {
+  margin-bottom:12px;
+  padding:12px 15px;
+}
+
+.heat-outlook-card .outlook-chart-wrap {
+  max-height:245px;
+}
+
+.heat-outlook-card .heat-outlook-chart {
+  max-height:245px;
+}
+
+.heat-outlook-card .outlook-changes {
+  margin-top:11px;
+}
+
+.heat-outlook-card .outlook-change-item {
+  padding:10px 12px;
+}
+
+.heat-outlook-card .outlook-details-button {
+  margin-top:10px;
+  padding:13px 16px;
+}
+
+.heat-outlook-card .outlook-disclaimer {
+  margin-top:8px;
+}
+
+/* Employee display retains its dedicated simplified v3.2 layout. */
+.display-mode .command-center-overview {
+  grid-template-columns:1fr;
+  grid-template-rows:auto;
+}
+
+@media (max-width:900px) {
+  .command-center-overview {
+    grid-template-columns:1fr;
+    grid-template-rows:auto;
+  }
+
+  .weather-card,
+  .command-center-side-stack,
+  .heat-outlook-card {
+    grid-column:1;
+    grid-row:auto;
+  }
+
+  .command-center-side-stack {
+    grid-template-rows:auto;
+  }
+}
