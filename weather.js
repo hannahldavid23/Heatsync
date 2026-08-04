@@ -1,6 +1,6 @@
-// HeatSync 3.0 Weather Intelligence
-// Uses store coordinates, current temperature and humidity, then calculates
-// the National Weather Service heat index screening value.
+// HeatSync 3.1 Weather Intelligence + Heat Outlook
+// Uses Open-Meteo for current and hourly temperature/humidity, then calculates
+// the National Weather Service heat index for current and forecast conditions.
 
 window.HeatSyncWeather = (() => {
   function round(value) {
@@ -12,7 +12,6 @@ window.HeatSyncWeather = (() => {
     const R = Number(humidity);
     if (!Number.isFinite(T) || !Number.isFinite(R)) return null;
 
-    // NWS simple approximation before the full regression.
     let hi = 0.5 * (T + 61 + ((T - 68) * 1.2) + (R * 0.094));
     hi = (hi + T) / 2;
     if (hi < 80) return round(T);
@@ -65,27 +64,51 @@ window.HeatSyncWeather = (() => {
     if (!Number.isFinite(Number(latitude)) || !Number.isFinite(Number(longitude))) {
       throw new Error("Store coordinates are missing.");
     }
+
     const params = new URLSearchParams({
       latitude: String(latitude),
       longitude: String(longitude),
       current: "temperature_2m,relative_humidity_2m,weather_code",
+      hourly: "temperature_2m,relative_humidity_2m",
       daily: "uv_index_max",
       temperature_unit: "fahrenheit",
       timezone: "auto",
       forecast_days: "1"
     });
+
     const response = await fetch(`https://api.open-meteo.com/v1/forecast?${params}`);
     if (!response.ok) throw new Error("Weather service did not respond.");
     const data = await response.json();
     const temperature = Number(data.current?.temperature_2m);
     const humidity = Number(data.current?.relative_humidity_2m);
     const heatIndex = calculateHeatIndex(temperature, humidity);
+
+    const hourlyTimes = Array.isArray(data.hourly?.time) ? data.hourly.time : [];
+    const hourlyTemps = Array.isArray(data.hourly?.temperature_2m) ? data.hourly.temperature_2m : [];
+    const hourlyHumidity = Array.isArray(data.hourly?.relative_humidity_2m) ? data.hourly.relative_humidity_2m : [];
+    const now = new Date();
+    const currentHour = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours()).getTime();
+
+    const hourly = hourlyTimes.map((time, index) => {
+      const date = new Date(time);
+      const temp = Number(hourlyTemps[index]);
+      const rh = Number(hourlyHumidity[index]);
+      return {
+        time: date.getTime(),
+        temperature: round(temp),
+        humidity: round(rh),
+        heatIndex: calculateHeatIndex(temp, rh)
+      };
+    }).filter(point => Number.isFinite(point.time) && point.time >= currentHour && point.heatIndex != null);
+
     return {
       temperature: round(temperature),
       humidity: round(humidity),
       uvIndex: Number.isFinite(Number(data.daily?.uv_index_max?.[0])) ? Math.round(Number(data.daily.uv_index_max[0]) * 10) / 10 : null,
       heatIndex,
       risk: riskForHeatIndex(heatIndex),
+      hourly,
+      timezone: data.timezone || null,
       fetchedAt: Date.now()
     };
   }

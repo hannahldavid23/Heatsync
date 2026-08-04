@@ -1,13 +1,14 @@
-# HeatSync 3.0.0 — Command Center (Sprint 1)
+# HeatSync 3.1.0 — Heat Outlook
 
-This development build adds:
+This development build includes the HeatSync 3.0 Command Center plus:
 
-- Shared store profile and weather location
-- Automatic temperature, humidity, UV maximum, and NWS heat-index calculation
-- Optional manual heat-index entry from the OSHA-NIOSH Heat Safety Tool
-- Store-specific customizable heat-policy thresholds
-- One-tap manager recommendation
-- Command Center summary cards
-- Larger Team Mode “I'M BACK” action
+- Hourly projected heat-index graph using Open-Meteo temperature and humidity forecasts
+- Store-specific policy threshold lines
+- Next expected policy-change time and countdown
+- Heat-index trend for the next hour
+- In-app preparation banner within one hour of a projected change
+- Urgent preparation state within 15 minutes
+- Expected policy changes for the rest of the day
+- Expandable hourly forecast table
 
-Upload this build to the `v3-command-center` branch for testing. Do not merge into `main` until manager and display devices have both been tested.
+Test this build on the `feature/heat-outlook` branch before merging into `main`. Forecast guidance is predictive and should be confirmed against current conditions.

@@ -447,3 +447,84 @@ HEATSYNC 3.0 COMMAND CENTER
         grid-template-columns: 1fr;
     }
 }
+
+
+/* ===================================
+   HeatSync 3.1 — Heat Outlook
+=================================== */
+.heat-outlook-card {
+  grid-column:1 / -1;
+  border-top:6px solid var(--gold);
+  overflow:hidden;
+}
+.heat-outlook-heading {
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:18px;
+  margin-bottom:16px;
+}
+.heat-outlook-heading h3 { margin:7px 0 3px; font-size:24px; }
+.heat-outlook-heading p { margin:0; color:var(--muted); font-size:13px; }
+.outlook-trend {
+  flex:0 0 auto;
+  border-radius:999px;
+  padding:10px 14px;
+  background:#f4f1ec;
+  color:#444;
+  font-size:12px;
+  font-weight:900;
+}
+.outlook-trend.rising { color:#9a3412; background:#ffedd5; }
+.outlook-trend.falling { color:#075985; background:#e0f2fe; }
+.outlook-trend.steady { color:#3f3f46; background:#f4f4f5; }
+.outlook-prepare-banner {
+  margin:4px 0 18px;
+  padding:15px 17px;
+  border-radius:16px;
+  background:#fff3cd;
+  color:#7c4a00;
+  font-weight:850;
+  line-height:1.45;
+}
+.outlook-prepare-banner.urgent {
+  color:white;
+  background:linear-gradient(135deg,var(--deep-red),var(--red));
+  box-shadow:0 10px 26px rgba(217,4,41,.2);
+}
+.outlook-chart-wrap {
+  width:100%;
+  overflow-x:auto;
+  padding:6px 0 3px;
+  border-radius:18px;
+  background:linear-gradient(180deg,#fbfaf8,#f5f3ef);
+  border:1px solid #ece8e1;
+}
+.heat-outlook-chart { display:block; width:100%; min-width:620px; height:auto; }
+.outlook-grid-line { stroke:#ddd8d0; stroke-width:1; }
+.outlook-axis-label { fill:#7a7d83; font-size:11px; font-weight:750; }
+.outlook-threshold-line { stroke:#c86a2b; stroke-width:1.5; stroke-dasharray:7 6; opacity:.75; }
+.outlook-threshold-label { fill:#9a4d1e; font-size:10px; font-weight:900; }
+.outlook-forecast-area { fill:url(#heatOutlookAreaGradient); opacity:.6; }
+.outlook-forecast-line { fill:none; stroke:#d90429; stroke-width:4; stroke-linecap:round; stroke-linejoin:round; }
+.outlook-point { fill:white; stroke:#d90429; stroke-width:3; }
+.outlook-current-point { fill:#ffb000; stroke:#940929; stroke-width:3; }
+.outlook-value-label { fill:#2b2d31; font-size:11px; font-weight:900; }
+.outlook-changes { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:10px; margin-top:16px; }
+.outlook-change-item { padding:13px 14px; border-radius:14px; background:#f7f4ef; }
+.outlook-change-item small { display:block; color:var(--muted); font-size:9px; font-weight:900; letter-spacing:.1em; text-transform:uppercase; }
+.outlook-change-item strong { display:block; margin-top:5px; font-size:15px; }
+.outlook-details-button { width:100%; margin-top:14px; background:#22252b; }
+.forecast-details { margin-top:12px; border:1px solid #ece8e1; border-radius:16px; overflow:hidden; }
+.forecast-hour-row { display:grid; grid-template-columns:1.1fr .8fr .8fr 1fr; gap:8px; align-items:center; padding:11px 13px; border-bottom:1px solid #eeeae4; font-size:12px; }
+.forecast-hour-row:last-child { border-bottom:0; }
+.forecast-hour-row.header { background:#f5f3ef; color:var(--muted); font-size:9px; font-weight:900; letter-spacing:.08em; text-transform:uppercase; }
+.forecast-hour-row.policy-change { background:#fff7ed; }
+.forecast-hour-row strong { text-align:right; }
+.outlook-disclaimer { margin:12px 0 0; color:#8a8d92; font-size:10px; line-height:1.45; text-align:center; }
+.display-mode .outlook-details-button { display:none; }
+@media (max-width:800px) {
+  .heat-outlook-heading { flex-direction:column; }
+  .outlook-trend { align-self:flex-start; }
+  .forecast-hour-row { grid-template-columns:1fr .75fr .75fr 1fr; font-size:11px; }
+}

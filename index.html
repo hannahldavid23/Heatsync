@@ -7,7 +7,7 @@
   <title>HeatSync™ | Outdoor Team Management</title>
   <link rel="icon" type="image/png" href="heatsync-icon.png">
   <link rel="apple-touch-icon" href="heatsync-icon.png">
-  <link rel="stylesheet" href="style.css?v=303">
+  <link rel="stylesheet" href="style.css?v=310">
 </head>
 <body>
 
@@ -97,7 +97,7 @@
 </button>
 
 <p class="version-text">
-    HeatSync™ v3.0.0 • Outdoor Team Management
+    HeatSync™ v3.1.0 • Outdoor Team Management
 </p>
     </div>
   </div>
@@ -129,7 +129,7 @@
 
     <div class="about-version-card">
     <span>VERSION</span>
-    <strong>3.0.0</strong>
+    <strong>3.1.0</strong>
     <small>Command Center</small>
 
     <div class="about-build">
@@ -151,6 +151,8 @@
         <div>Apply Recommendation</div>
         <div>Multi-Device Sync</div>
         <div>Team Display</div>
+        <div>Heat Outlook</div>
+        <div>Predictive Policy Guidance</div>
       </div>
     </section>
 
@@ -251,6 +253,32 @@
           <button id="applyPolicyButton" class="apply-policy-button" onclick="applyWeatherRecommendation()" disabled>Apply Recommendation</button>
         </div>
 
+        <div class="card heat-outlook-card">
+          <div class="heat-outlook-heading">
+            <div>
+              <div class="card-kicker">📈 TODAY'S HEAT OUTLOOK</div>
+              <h3 id="outlookHeadline">Loading today’s forecast…</h3>
+              <p id="outlookSubtext">Projected from hourly temperature and humidity.</p>
+            </div>
+            <div id="outlookTrend" class="outlook-trend">—</div>
+          </div>
+
+          <div id="outlookPrepareBanner" class="outlook-prepare-banner" style="display:none;"></div>
+
+          <div class="outlook-chart-wrap" aria-label="Projected hourly heat index chart">
+            <svg id="heatOutlookChart" class="heat-outlook-chart" viewBox="0 0 760 260" role="img" aria-labelledby="outlookChartTitle outlookChartDesc">
+              <title id="outlookChartTitle">Projected heat index for today</title>
+              <desc id="outlookChartDesc">Hourly heat-index forecast with store policy thresholds.</desc>
+            </svg>
+          </div>
+
+          <div id="outlookChanges" class="outlook-changes"></div>
+
+          <button id="outlookDetailsButton" class="outlook-details-button" onclick="toggleForecastDetails()">View Hourly Forecast</button>
+          <div id="forecastDetails" class="forecast-details" style="display:none;"></div>
+          <p class="outlook-disclaimer">Forecast guidance only. Confirm current conditions before changing operations.</p>
+        </div>
+
         <div class="card shift-summary-card">
           <div class="card-kicker">👥 SHIFT SUMMARY</div>
           <div class="summary-grid">
@@ -266,7 +294,7 @@
         <div class="command-topline">
           <div>
             <span class="eyebrow">LIVE STORE STATUS</span>
-            <h2>HeatSync Dashboard</h2>
+            <h2>Command Center</h2>
           </div>
           <div id="activeCountPill" class="active-count-pill">0 ACTIVE</div>
         </div>
@@ -315,7 +343,7 @@
     <div class="footer-logo">HeatSync™</div>
     <div class="footer-tagline">Outdoor Team Management</div>
    <div class="footer-version">
-    Version 3.0.0 – Command Center<br>
+    Version 3.1.0 – Heat Outlook<br>
     © 2026 Hannah Davidson
 </div>
 </footer>
@@ -323,12 +351,12 @@
 </div>
 
 
-  <script src="storage.js?v=300"></script>
-  <script src="audio.js?v=300"></script>
-  <script src="ui.js?v=300"></script>
-  <script type="module" src="firebase.js?v=300"></script>
-  <script src="weather.js?v=300"></script>
-  <script src="app.js?v=300"></script>
-  <script src="command-center.js?v=300"></script>
+  <script src="storage.js?v=310"></script>
+  <script src="audio.js?v=310"></script>
+  <script src="ui.js?v=310"></script>
+  <script type="module" src="firebase.js?v=310"></script>
+  <script src="weather.js?v=310"></script>
+  <script src="app.js?v=310"></script>
+  <script src="command-center.js?v=310"></script>
 </body>
 </html>
