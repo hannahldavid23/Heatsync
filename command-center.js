@@ -1,4 +1,4 @@
-// HeatSync 3.1.0 — Command Center + Heat Outlook
+// HeatSync 3.2.0 — Command Center + Team Display
 
 let storeProfile = null;
 let currentConditions = null;

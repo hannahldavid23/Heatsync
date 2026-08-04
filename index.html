@@ -7,7 +7,7 @@
   <title>HeatSync™ | Outdoor Team Management</title>
   <link rel="icon" type="image/png" href="heatsync-icon.png">
   <link rel="apple-touch-icon" href="heatsync-icon.png">
-  <link rel="stylesheet" href="style.css?v=310">
+  <link rel="stylesheet" href="style.css?v=320">
 </head>
 <body>
 
@@ -97,7 +97,7 @@
 </button>
 
 <p class="version-text">
-    HeatSync™ v3.1.0 • Outdoor Team Management
+    HeatSync™ v3.2.0 • Outdoor Team Management
 </p>
     </div>
   </div>
@@ -129,8 +129,8 @@
 
     <div class="about-version-card">
     <span>VERSION</span>
-    <strong>3.1.0</strong>
-    <small>Command Center</small>
+    <strong>3.2.0</strong>
+    <small>Team Display</small>
 
     <div class="about-build">
         Official Production Release
@@ -153,6 +153,7 @@
         <div>Team Display</div>
         <div>Heat Outlook</div>
         <div>Predictive Policy Guidance</div>
+        <div>Today's Team Pairings</div>
       </div>
     </section>
 
@@ -290,6 +291,16 @@
         </div>
       </section>
 
+      <section id="todayTeamCard" class="card today-team-card" aria-labelledby="todayTeamTitle">
+        <div class="section-heading compact">
+          <div>
+            <span class="eyebrow">TEAM DISPLAY</span>
+            <h2 id="todayTeamTitle">👥 Today's Team</h2>
+          </div>
+        </div>
+        <div id="todayTeamPairings" class="today-team-pairings"></div>
+      </section>
+
       <div class="card command-card">
         <div class="command-topline">
           <div>
@@ -343,7 +354,7 @@
     <div class="footer-logo">HeatSync™</div>
     <div class="footer-tagline">Outdoor Team Management</div>
    <div class="footer-version">
-    Version 3.1.0 – Heat Outlook<br>
+    Version 3.2.0 – Team Display<br>
     © 2026 Hannah Davidson
 </div>
 </footer>
@@ -351,12 +362,12 @@
 </div>
 
 
-  <script src="storage.js?v=310"></script>
-  <script src="audio.js?v=310"></script>
-  <script src="ui.js?v=310"></script>
-  <script type="module" src="firebase.js?v=310"></script>
-  <script src="weather.js?v=310"></script>
-  <script src="app.js?v=310"></script>
-  <script src="command-center.js?v=310"></script>
+  <script src="storage.js?v=320"></script>
+  <script src="audio.js?v=320"></script>
+  <script src="ui.js?v=320"></script>
+  <script type="module" src="firebase.js?v=320"></script>
+  <script src="weather.js?v=320"></script>
+  <script src="app.js?v=320"></script>
+  <script src="command-center.js?v=320"></script>
 </body>
 </html>
