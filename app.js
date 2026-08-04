@@ -1,4 +1,4 @@
-// HeatSync 2.1 — Ignition
+// HeatSync 3.3.0 — Team Display
 
 const positions = ["Cash 1", "Cash 2", "IPOS 1", "IPOS 2", "IPOS 3", "IPOS 4", "Expo 1", "Expo 2"];
 
@@ -251,8 +251,34 @@ function renderDashboard() {
     container.appendChild(card);
   });
 
+  renderTodayTeam();
   renderManagerConsole();
   updateAttentionBanner();
+}
+
+function renderTodayTeam() {
+  const container = document.getElementById("todayTeamPairings");
+  if (!container) return;
+
+  const pairings = Array.isArray(shiftData)
+    ? shiftData.filter(person => person && (person.outside || person.inside))
+    : [];
+
+  if (!pairings.length) {
+    container.innerHTML = '<p class="today-team-empty">Pairings will appear when the manager starts the shift.</p>';
+    return;
+  }
+
+  container.innerHTML = pairings.map(person => `
+    <div class="today-team-pair">
+      <span class="today-team-position">${escapeHtml(person.position)}</span>
+      <div class="today-team-names">
+        <span>${escapeHtml(person.outside || "Open")}</span>
+        <strong aria-hidden="true">⇄</strong>
+        <span>${escapeHtml(person.inside || "Open")}</span>
+      </div>
+    </div>
+  `).join("");
 }
 
 function renderManagerConsole() {
