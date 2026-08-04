@@ -528,3 +528,219 @@ HEATSYNC 3.0 COMMAND CENTER
   .outlook-trend { align-self:flex-start; }
   .forecast-hour-row { grid-template-columns:1fr .75fr .75fr 1fr; font-size:11px; }
 }
+
+
+/* ===================================
+   HeatSync 3.2 — Team Display
+=================================== */
+
+/* Balanced manager Command Center: two even rows and two even columns. */
+.command-center-overview {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-areas:
+    "weather policy"
+    "outlook summary";
+  align-items: stretch;
+}
+
+.command-center-overview .card {
+  height: 100%;
+}
+
+.weather-card {
+  grid-area: weather;
+  grid-row: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.weather-card .weather-refresh {
+  margin-top: auto;
+}
+
+.policy-card {
+  grid-area: policy;
+  display: flex;
+  flex-direction: column;
+}
+
+.policy-card .apply-policy-button {
+  margin-top: auto;
+}
+
+.heat-outlook-card {
+  grid-area: outlook;
+  grid-column: auto;
+  padding: 21px;
+}
+
+.shift-summary-card {
+  grid-area: summary;
+  display: flex;
+  flex-direction: column;
+}
+
+.shift-summary-card .summary-grid {
+  flex: 1;
+  align-content: center;
+}
+
+/* Keep Heat Outlook useful without letting it dominate the page. */
+.heat-outlook-heading {
+  margin-bottom: 10px;
+}
+
+.heat-outlook-heading h3 {
+  font-size: 20px;
+}
+
+.heat-outlook-heading p {
+  font-size: 12px;
+}
+
+.outlook-chart-wrap {
+  padding: 2px 0;
+}
+
+.heat-outlook-chart {
+  min-width: 520px;
+  height: 170px;
+}
+
+.outlook-changes {
+  margin-top: 10px;
+}
+
+.outlook-change-item {
+  padding: 10px 12px;
+}
+
+.outlook-details-button {
+  margin-top: 10px;
+  padding: 12px 15px;
+}
+
+.outlook-disclaimer {
+  margin-top: 8px;
+}
+
+/* Today's Team is a read-only employee-facing card. */
+.today-team-card {
+  display: none;
+  border-top: 6px solid var(--cyan);
+}
+
+.today-team-pairings {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.today-team-pair {
+  padding: 15px;
+  border: 1px solid #ebe8e3;
+  border-radius: 16px;
+  background: #f7f6f4;
+}
+
+.today-team-position {
+  display: block;
+  margin-bottom: 9px;
+  color: var(--deep-red);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.today-team-names {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  font-size: 17px;
+  font-weight: 900;
+}
+
+.today-team-names span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+  padding: 11px 8px;
+  border-radius: 12px;
+  background: white;
+}
+
+.today-team-names strong {
+  color: var(--orange);
+}
+
+.today-team-empty {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* Employee Display: current rotation, Today's Team, and existing timers. */
+.display-mode .weather-card,
+.display-mode .heat-outlook-card,
+.display-mode .shift-summary-card {
+  display: none !important;
+}
+
+.display-mode .command-center-overview {
+  display: block;
+  margin-bottom: 24px;
+}
+
+.display-mode .policy-card {
+  width: 100%;
+  min-height: 0;
+}
+
+.display-mode .policy-comparison {
+  grid-template-columns: 1fr;
+  margin-bottom: 0;
+}
+
+.display-mode .policy-arrow,
+.display-mode .policy-comparison > div:nth-child(3),
+.display-mode #policyExplanation,
+.display-mode #applyPolicyButton {
+  display: none !important;
+}
+
+.display-mode .policy-comparison > div:first-child {
+  padding: 22px;
+}
+
+.display-mode .policy-comparison > div:first-child strong {
+  font-size: 38px;
+}
+
+.display-mode .today-team-card {
+  display: block;
+}
+
+@media (max-width: 800px) {
+  .command-center-overview {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "weather"
+      "policy"
+      "outlook"
+      "summary";
+  }
+
+  .today-team-pairings {
+    grid-template-columns: 1fr;
+  }
+
+  .heat-outlook-chart {
+    min-width: 500px;
+    height: 165px;
+  }
+}
