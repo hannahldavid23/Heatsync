@@ -669,3 +669,140 @@ HEATSYNC 3.0 COMMAND CENTER
     grid-template-rows:auto;
   }
 }
+
+
+/* ===================================
+   HeatSync 3.3 — Team Display
+=================================== */
+
+/* Today’s Team is an employee-display feature only. */
+.today-team-card {
+  display:none;
+  border-top:6px solid var(--cyan);
+}
+
+.today-team-pairings {
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:12px;
+}
+
+.today-team-pair {
+  display:grid;
+  grid-template-columns:minmax(90px, .65fr) minmax(0, 1.35fr);
+  align-items:center;
+  gap:12px;
+  padding:14px;
+  border-radius:16px;
+  background:#f6f5f2;
+  border:1px solid #ebe8e3;
+}
+
+.today-team-position {
+  color:var(--deep-red);
+  font-size:11px;
+  font-weight:950;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+}
+
+.today-team-names {
+  display:grid;
+  grid-template-columns:minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items:center;
+  gap:9px;
+  min-width:0;
+}
+
+.today-team-names span {
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  padding:10px 11px;
+  border-radius:12px;
+  background:#fff;
+  text-align:center;
+  font-size:15px;
+  font-weight:850;
+}
+
+.today-team-names strong {
+  color:var(--orange);
+  font-size:18px;
+}
+
+.today-team-empty {
+  grid-column:1 / -1;
+  margin:0;
+  padding:18px;
+  border-radius:14px;
+  background:#f6f5f2;
+  color:var(--muted);
+  text-align:center;
+  font-size:13px;
+}
+
+/* Employee display: current rotation, pairings, and existing live timers only. */
+.display-mode .weather-card,
+.display-mode .heat-outlook-card,
+.display-mode .shift-summary-card {
+  display:none !important;
+}
+
+.display-mode .command-center-overview {
+  display:block;
+  margin-bottom:24px;
+}
+
+.display-mode .command-center-side-stack {
+  display:block;
+}
+
+.display-mode .policy-card {
+  display:block;
+  width:100%;
+  max-width:none;
+}
+
+.display-mode .policy-comparison {
+  display:block;
+  margin:16px 0 0;
+}
+
+.display-mode .policy-comparison > div:first-child {
+  padding:22px;
+}
+
+.display-mode .policy-comparison > div:first-child strong {
+  font-size:34px;
+}
+
+.display-mode .policy-comparison > div:nth-of-type(2),
+.display-mode .policy-arrow,
+.display-mode #policyExplanation,
+.display-mode #applyPolicyButton {
+  display:none !important;
+}
+
+.display-mode #todayTeamCard {
+  display:block;
+}
+
+.display-mode #todayTeamCard .section-heading {
+  margin-bottom:15px;
+}
+
+@media (max-width:800px) {
+  .today-team-pairings {
+    grid-template-columns:1fr;
+  }
+
+  .today-team-pair {
+    grid-template-columns:1fr;
+  }
+
+  .today-team-position {
+    text-align:center;
+  }
+}

@@ -7,7 +7,7 @@
   <title>HeatSync™ | Outdoor Team Management</title>
   <link rel="icon" type="image/png" href="heatsync-icon.png">
   <link rel="apple-touch-icon" href="heatsync-icon.png">
-  <link rel="stylesheet" href="style.css?v=321">
+  <link rel="stylesheet" href="style.css?v=330">
 </head>
 <body>
 
@@ -97,7 +97,7 @@
 </button>
 
 <p class="version-text">
-    HeatSync™ v3.2.1 • Outdoor Team Management
+    HeatSync™ v3.3.0 • Outdoor Team Management
 </p>
     </div>
   </div>
@@ -129,11 +129,11 @@
 
     <div class="about-version-card">
     <span>VERSION</span>
-    <strong>3.2.1</strong>
+    <strong>3.3.0</strong>
     <small>Team Display</small>
 
     <div class="about-build">
-        Dashboard Layout Fix
+        Employee-Focused Display
     </div>
 </div>
     <section class="about-section">
@@ -153,6 +153,7 @@
         <div>Team Display</div>
         <div>Heat Outlook</div>
         <div>Predictive Policy Guidance</div>
+        <div>Today's Team Pairings</div>
       </div>
     </section>
 
@@ -292,6 +293,18 @@
         </div>
       </section>
 
+      <section id="todayTeamCard" class="card today-team-card" aria-labelledby="todayTeamTitle">
+        <div class="section-heading compact">
+          <div>
+            <span class="eyebrow">SHIFT PAIRINGS</span>
+            <h2 id="todayTeamTitle">Today’s Team</h2>
+          </div>
+        </div>
+        <div id="todayTeamPairings" class="today-team-pairings">
+          <p class="today-team-empty">Pairings will appear when the manager starts the shift.</p>
+        </div>
+      </section>
+
       <div class="card command-card">
         <div class="command-topline">
           <div>
@@ -345,7 +358,7 @@
     <div class="footer-logo">HeatSync™</div>
     <div class="footer-tagline">Outdoor Team Management</div>
    <div class="footer-version">
-    Version 3.2.1 – Dashboard Layout Fix<br>
+    Version 3.3.0 – Team Display<br>
     © 2026 Hannah Davidson
 </div>
 </footer>
@@ -353,12 +366,12 @@
 </div>
 
 
-  <script src="storage.js?v=321"></script>
-  <script src="audio.js?v=321"></script>
-  <script src="ui.js?v=321"></script>
-  <script type="module" src="firebase.js?v=321"></script>
-  <script src="weather.js?v=321"></script>
-  <script src="app.js?v=321"></script>
-  <script src="command-center.js?v=321"></script>
+  <script src="storage.js?v=330"></script>
+  <script src="audio.js?v=330"></script>
+  <script src="ui.js?v=330"></script>
+  <script type="module" src="firebase.js?v=330"></script>
+  <script src="weather.js?v=330"></script>
+  <script src="app.js?v=330"></script>
+  <script src="command-center.js?v=330"></script>
 </body>
 </html>
