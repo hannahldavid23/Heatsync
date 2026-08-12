@@ -1,4 +1,4 @@
-// HeatSync 3.3.0 — Team Display
+// HeatSync 3.4.0 — Live Pairing Editor
 
 const positions = ["Cash 1", "Cash 2", "IPOS 1", "IPOS 2", "IPOS 3", "IPOS 4", "Expo 1", "Expo 2"];
 
@@ -300,6 +300,61 @@ function renderManagerConsole() {
     `;
     container.appendChild(card);
   });
+}
+
+function openPartnerEditor() {
+  if (!isManagerDevice() || !shiftData.length) return;
+
+  const overlay = document.getElementById("partnerEditorOverlay");
+  const rows = document.getElementById("partnerEditorRows");
+  const message = document.getElementById("partnerEditorMessage");
+  if (!overlay || !rows) return;
+
+  rows.innerHTML = shiftData.map((person, index) => `
+    <div class="partner-editor-row">
+      <div class="partner-editor-position">
+        <strong>${escapeHtml(person.position)}</strong>
+        <small>${escapeHtml((person.status || "scheduled").toUpperCase())}</small>
+      </div>
+      <label>
+        <span>Outside</span>
+        <input id="partner-outside-${index}" class="large-input" value="${escapeHtml(person.outside === "None" ? "" : person.outside)}" autocomplete="off">
+      </label>
+      <div class="partner-editor-swap" aria-hidden="true">⇄</div>
+      <label>
+        <span>Inside</span>
+        <input id="partner-inside-${index}" class="large-input" value="${escapeHtml(person.inside === "None" ? "" : person.inside)}" autocomplete="off">
+      </label>
+    </div>
+  `).join("");
+
+  if (message) message.textContent = "Timers will not restart when you save.";
+  overlay.style.display = "flex";
+}
+
+function closePartnerEditor() {
+  const overlay = document.getElementById("partnerEditorOverlay");
+  if (overlay) overlay.style.display = "none";
+}
+
+function savePartnerEdits() {
+  if (!isManagerDevice() || !shiftData.length) return;
+
+  shiftData.forEach((person, index) => {
+    const outsideInput = document.getElementById(`partner-outside-${index}`);
+    const insideInput = document.getElementById(`partner-inside-${index}`);
+    if (!outsideInput || !insideInput) return;
+
+    const outside = outsideInput.value.trim();
+    const inside = insideInput.value.trim();
+    person.outside = outside || "None";
+    person.inside = inside || "None";
+    // Intentionally preserve status and switchTime so active timers are untouched.
+  });
+
+  saveCurrentShift();
+  renderDashboard();
+  closePartnerEditor();
 }
 
 function startNewShift() {

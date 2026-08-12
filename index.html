@@ -7,7 +7,7 @@
   <title>HeatSync™ | Outdoor Team Management</title>
   <link rel="icon" type="image/png" href="heatsync-icon.png">
   <link rel="apple-touch-icon" href="heatsync-icon.png">
-  <link rel="stylesheet" href="style.css?v=330">
+  <link rel="stylesheet" href="style.css?v=340">
 </head>
 <body>
 
@@ -97,7 +97,7 @@
 </button>
 
 <p class="version-text">
-    HeatSync™ v3.3.0 • Outdoor Team Management
+    HeatSync™ v3.4.0 • Outdoor Team Management
 </p>
     </div>
   </div>
@@ -129,11 +129,11 @@
 
     <div class="about-version-card">
     <span>VERSION</span>
-    <strong>3.3.0</strong>
-    <small>Team Display</small>
+    <strong>3.4.0</strong>
+    <small>Live Pairing Editor</small>
 
     <div class="about-build">
-        Employee-Focused Display
+        Live Pairing Changes
     </div>
 </div>
     <section class="about-section">
@@ -154,6 +154,7 @@
         <div>Heat Outlook</div>
         <div>Predictive Policy Guidance</div>
         <div>Today's Team Pairings</div>
+        <div>Live Pairing Editor</div>
       </div>
     </section>
 
@@ -331,6 +332,7 @@
             <button onclick="pauseTimers()">⏸ PAUSE ALL</button>
             <button onclick="resumeTimers()">▶ RESUME</button>
           </div>
+          <button id="editPartnersButton" onclick="openPartnerEditor()" class="edit-partners-button">✏️ EDIT PARTNERS</button>
           <button onclick="startNewShift()" class="reset-shift-button">START NEW SHIFT</button>
           <p id="pauseMessage" class="system-message">🔥 HEATSYNC ACTIVE</p>
         </div>
@@ -347,6 +349,22 @@
       </section>
     </main>
 
+    <!-- LIVE PAIRING EDITOR -->
+    <div id="partnerEditorOverlay" class="overlay" style="display:none;">
+      <div class="setup-modal partner-editor-modal">
+        <button class="close-button" onclick="closePartnerEditor()" aria-label="Close partner editor">×</button>
+        <span class="eyebrow">LIVE SHIFT</span>
+        <h2>Edit Partners</h2>
+        <p class="partner-editor-help">Change today’s pairings without restarting the shift. Active timers and rotation status will stay exactly as they are.</p>
+        <div id="partnerEditorRows" class="partner-editor-rows"></div>
+        <p id="partnerEditorMessage" class="partner-editor-message"></p>
+        <div class="partner-editor-actions">
+          <button class="secondary-button" onclick="closePartnerEditor()">CANCEL</button>
+          <button class="primary-button" onclick="savePartnerEdits()">SAVE PARTNERS</button>
+        </div>
+      </div>
+    </div>
+
     <div id="resumeModal" style="display:none;" class="card">
   <h2>🔥 Active HeatSync Shift Found</h2>
   <p id="resumeDetails"></p>
@@ -358,7 +376,7 @@
     <div class="footer-logo">HeatSync™</div>
     <div class="footer-tagline">Outdoor Team Management</div>
    <div class="footer-version">
-    Version 3.3.0 – Team Display<br>
+    Version 3.4.0 – Live Pairing Editor<br>
     © 2026 Hannah Davidson
 </div>
 </footer>
@@ -366,12 +384,12 @@
 </div>
 
 
-  <script src="storage.js?v=330"></script>
-  <script src="audio.js?v=330"></script>
-  <script src="ui.js?v=330"></script>
-  <script type="module" src="firebase.js?v=330"></script>
-  <script src="weather.js?v=330"></script>
-  <script src="app.js?v=330"></script>
-  <script src="command-center.js?v=330"></script>
+  <script src="storage.js?v=340"></script>
+  <script src="audio.js?v=340"></script>
+  <script src="ui.js?v=340"></script>
+  <script type="module" src="firebase.js?v=340"></script>
+  <script src="weather.js?v=340"></script>
+  <script src="app.js?v=340"></script>
+  <script src="command-center.js?v=340"></script>
 </body>
 </html>

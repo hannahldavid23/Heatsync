@@ -806,3 +806,129 @@ HEATSYNC 3.0 COMMAND CENTER
     text-align:center;
   }
 }
+
+
+/* ===================================
+   HeatSync 3.4 — Live Pairing Editor
+=================================== */
+.edit-partners-button {
+  width:100%;
+  margin-top:14px;
+  background:#22252b;
+}
+
+.partner-editor-modal {
+  width:min(100%, 780px);
+}
+
+.partner-editor-modal > .eyebrow {
+  display:block;
+  text-align:center;
+  margin-top:4px;
+}
+
+.partner-editor-help {
+  max-width:600px;
+  margin:8px auto 22px;
+  color:var(--muted);
+  text-align:center;
+  font-size:13px;
+  line-height:1.5;
+}
+
+.partner-editor-rows {
+  display:grid;
+  gap:12px;
+}
+
+.partner-editor-row {
+  display:grid;
+  grid-template-columns:minmax(100px,.7fr) minmax(0,1fr) auto minmax(0,1fr);
+  align-items:end;
+  gap:10px;
+  padding:14px;
+  border-radius:16px;
+  background:#f6f5f2;
+  border:1px solid #ebe8e3;
+}
+
+.partner-editor-position {
+  align-self:center;
+  min-width:0;
+}
+
+.partner-editor-position strong,
+.partner-editor-position small {
+  display:block;
+}
+
+.partner-editor-position strong {
+  font-size:15px;
+}
+
+.partner-editor-position small {
+  margin-top:4px;
+  color:var(--deep-red);
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.1em;
+}
+
+.partner-editor-row label > span {
+  display:block;
+  margin:0 0 5px;
+  color:var(--muted);
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.partner-editor-row .large-input {
+  padding:11px 12px;
+  font-size:15px;
+}
+
+.partner-editor-swap {
+  align-self:center;
+  padding-bottom:10px;
+  color:var(--orange);
+  font-size:20px;
+  font-weight:950;
+}
+
+.partner-editor-message {
+  margin:14px 0 0;
+  min-height:18px;
+  color:var(--green);
+  text-align:center;
+  font-size:12px;
+  font-weight:800;
+}
+
+.partner-editor-actions {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:8px;
+}
+
+.partner-editor-actions .secondary-button {
+  margin-top:0;
+}
+
+@media (max-width:700px) {
+  .partner-editor-row {
+    grid-template-columns:1fr;
+  }
+
+  .partner-editor-swap {
+    padding:0;
+    text-align:center;
+    transform:rotate(90deg);
+  }
+
+  .partner-editor-actions {
+    grid-template-columns:1fr;
+  }
+}
